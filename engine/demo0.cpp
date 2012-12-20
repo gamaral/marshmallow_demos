@@ -34,9 +34,9 @@
 #include <event/eventmanager.h>
 #include <event/keyboardevent.h>
 
+#include <graphics/backend.h>
 #include <graphics/itexturedata.h>
 #include <graphics/quadmesh.h>
-#include <graphics/viewport.h>
 
 #include <game/collisionscenelayer.h>
 #include <game/enginebase.h>
@@ -82,7 +82,7 @@ public:
 		if (m_position && m_movement) {
 			MMVERBOSE("Current position (" << m_position->position().x << ", " << m_position->position().y << ").");
 
-			Math::Size2f l_vpsize = Graphics::Viewport::Size();
+			Math::Size2f l_vpsize = Graphics::Backend::Size();
 
 			Math::Point2  &pos = m_position->position();
 			Math::Vector2 &dir = m_movement->velocity();
@@ -146,10 +146,10 @@ public:
 			Game::PositionComponent *l_pcomponent =
 			    new Game::PositionComponent("position", *l_entity);
 			l_pcomponent->position() = Math::Point2(
-			    (l_rand * Graphics::Viewport::Size().width) -
-			        (Graphics::Viewport::Size().width / 2.f),
-			    (l_rand * Graphics::Viewport::Size().height) -
-			        (Graphics::Viewport::Size().height / 2.f));
+			    (l_rand * Graphics::Backend::Size().width) -
+			        (Graphics::Backend::Size().width / 2.f),
+			    (l_rand * Graphics::Backend::Size().height) -
+			        (Graphics::Backend::Size().height / 2.f));
 			l_entity->pushComponent(l_pcomponent);
 
 			Game::MovementComponent *l_mcomponent =

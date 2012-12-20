@@ -44,7 +44,7 @@
 #include <event/eventmanager.h>
 #include <event/keyboardevent.h>
 
-#include <graphics/viewport.h>
+#include <graphics/backend.h>
 
 #include <game/enginebase.h>
 #include <game/entityscenelayer.h>

@@ -45,7 +45,7 @@
 #include <event/keyboardevent.h>
 #include <event/touchevent.h>
 
-#include <graphics/viewport.h>
+#include <graphics/backend.h>
 
 #include <game/collidercomponent.h>
 #include <game/engine.h>
@@ -313,7 +313,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 					m_direction_stack.push_front(ICDLeft);
 					m_linear_impulse = -LINEAR_MAX;
 				}
-				else if (l_event.x() > (Graphics::Viewport::WindowSize().width - TOUCH_AREA)) {
+				else if (l_event.x() > (Graphics::Backend::WindowSize().width - TOUCH_AREA)) {
 					m_right = true;
 					m_direction_stack.push_front(ICDRight);
 					m_linear_impulse = LINEAR_MAX;
@@ -340,7 +340,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 				m_left = false;
 				m_direction_stack.remove(ICDLeft);
 			}
-			else if (m_right && (l_event.x() > (Graphics::Viewport::WindowSize().width - TOUCH_AREA))) {
+			else if (m_right && (l_event.x() > (Graphics::Backend::WindowSize().width - TOUCH_AREA))) {
 				m_right = false;
 				m_direction_stack.remove(ICDRight);
 			}

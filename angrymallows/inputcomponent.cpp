@@ -42,7 +42,7 @@
 #include <event/eventmanager.h>
 #include <event/keyboardevent.h>
 
-#include <graphics/viewport.h>
+#include <graphics/backend.h>
 
 #include <game/engine.h>
 #include <game/iengine.h>

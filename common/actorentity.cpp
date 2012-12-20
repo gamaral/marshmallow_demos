@@ -38,7 +38,6 @@
 #include <core/type.h>
 
 #include <graphics/camera.h>
-#include <graphics/viewport.h>
 
 #include <game/animationcomponent.h>
 #include <game/engine.h>

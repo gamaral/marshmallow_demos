@@ -40,8 +40,8 @@
 
 #include <event/eventmanager.h>
 
+#include <graphics/backend.h>
 #include <graphics/camera.h>
-#include <graphics/viewport.h>
 
 #include <game/animationcomponent.h>
 #include <game/engine.h>
@@ -147,11 +147,11 @@ PlayerEntity::update(float d)
 			    Game::Engine::Instance()->sceneManager()->activeScene()->getLayer("platform").staticCast<Game::TilemapSceneLayer>();
 			const Math::Size2f &l_hrsize = l_platform_layer->virtualHalfSize();
 
-			l_limit = l_hrsize.width - (Graphics::Viewport::Size().width / (2.f * l_zoom.width));
+			l_limit = l_hrsize.width - (Graphics::Backend::Size().width / (2.f * l_zoom.width));
 			if (l_pos.x < -l_limit) l_pos.x = -l_limit;
 			else if (l_pos.x > l_limit) l_pos.x = l_limit;
 
-			l_limit = l_hrsize.height - (Graphics::Viewport::Size().height / (2.f * l_zoom.height));
+			l_limit = l_hrsize.height - (Graphics::Backend::Size().height / (2.f * l_zoom.height));
 			if (l_pos.y < -l_limit) l_pos.y = -l_limit;
 			else if (l_pos.y > l_limit) l_pos.y = l_limit;
 

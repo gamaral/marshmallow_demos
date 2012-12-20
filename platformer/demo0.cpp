@@ -34,9 +34,9 @@
 #include <event/joystickbuttonevent.h>
 #include <event/keyboardevent.h>
 
+#include <graphics/backend.h>
 #include <graphics/camera.h>
 #include <graphics/display.h>
-#include <graphics/viewport.h>
 
 #include <game/collisionscenelayer.h>
 #include <game/enginebase.h>
@@ -134,9 +134,9 @@ public:
 				   l_kevent.key() == Keyboard::KBK_P) {
 				stop();
 			} else if (l_kevent.key() == Keyboard::KBK_F11) {
-				Graphics::Display l_display = Graphics::Viewport::Display();
+				Graphics::Display l_display = Graphics::Backend::Display();
 				l_display.fullscreen = !l_display.fullscreen;
-				Graphics::Viewport::Setup(l_display);
+				Graphics::Backend::Setup(l_display);
 
 			/* suicide */
 			} else if (l_kevent.key() == Keyboard::KBK_F1 ||
@@ -162,9 +162,9 @@ public:
 			    static_cast<const Event::JoystickButtonEvent &>(e);
 			if (l_event.button() == Joystick::JSB_MENU
 			    && l_event.action() == Joystick::ButtonPressed) {
-				Graphics::Display l_display = Graphics::Viewport::Display();
+				Graphics::Display l_display = Graphics::Backend::Display();
 				l_display.fullscreen = !l_display.fullscreen;
-				Graphics::Viewport::Setup(l_display);
+				Graphics::Backend::Setup(l_display);
 			}
 
 			else if (l_event.button() == Joystick::JSB_START

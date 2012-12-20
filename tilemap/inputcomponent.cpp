@@ -46,8 +46,6 @@
 #include <game/iengine.h>
 #include <game/ientity.h>
 
-#include <graphics/viewport.h>
-
 const Core::Type InputComponent::Type("InputComponent");
 
 InputComponent::InputComponent(const Core::Identifier &i, Game::IEntity &e)

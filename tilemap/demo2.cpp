@@ -34,9 +34,9 @@
 #include <event/keyboardevent.h>
 
 #include <graphics/factory.h>
+#include <graphics/backend.h>
 #include <graphics/tileset.h>
 #include <graphics/transform.h>
-#include <graphics/viewport.h>
 
 #include <game/enginebase.h>
 #include <game/entity.h>
