@@ -26,7 +26,7 @@ endif()
 
 target_link_libraries(angrymallows_demo marshmallow_entrypoint
                                         marshmallow_game
-                                        ${BOX2D_LIBRARIES})
+                                        ${BOX2D_LIBRARY})
 
 install(TARGETS angrymallows_demo
         RUNTIME DESTINATION bin COMPONENT demos

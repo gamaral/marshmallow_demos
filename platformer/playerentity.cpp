@@ -34,15 +34,20 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
+#include <core/fileio.h>
 #include <core/identifier.h>
 #include <core/logger.h>
 #include <core/platform.h>
+
+#include <audio/oggcodec.h>
+#include <audio/track.h>
 
 #include <event/eventmanager.h>
 
 #include <graphics/backend.h>
 #include <graphics/camera.h>
 
+#include <game/audiocomponent.h>
 #include <game/animationcomponent.h>
 #include <game/engine.h>
 #include <game/iengine.h>
@@ -123,6 +128,24 @@ PlayerEntity::update(float d)
 		/* input component */
 		m_input_component = new InputComponent("input", *this);
 		pushComponent(m_input_component.staticCast<Game::IComponent>());
+
+		/* audio component */
+		m_audio_component = new Game::AudioComponent("audio", *this);
+
+		Core::SharedDataIO l_music_asset = new Core::FileIO("assets/noragames-shiny_blue.ogg");
+		Audio::SharedCodec l_music_codec = new Audio::OggCodec;
+		l_music_codec->open(l_music_asset);
+		Audio::SharedTrack l_music_track = new Audio::Track(l_music_codec);
+		m_audio_component->add("music", l_music_track);
+		l_music_track->play(-1);
+
+		Core::SharedDataIO l_sfx_asset = new Core::FileIO("assets/jump.ogg");
+		Audio::SharedCodec l_sfx_codec = new Audio::OggCodec;
+		l_sfx_codec->open(l_sfx_asset);
+		Audio::SharedTrack l_sfx_track = new Audio::Track(l_sfx_codec);
+		m_audio_component->add("jump", l_sfx_track);
+
+		pushComponent(m_audio_component.staticCast<Game::IComponent>());
 
 		m_direction = -1;
 

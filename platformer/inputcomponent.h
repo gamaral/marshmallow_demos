@@ -47,6 +47,9 @@
 MARSHMALLOW_NAMESPACE_BEGIN
 namespace Game
 {
+	class AudioComponent;
+	typedef Core::Weak<AudioComponent> WeakAudioComponent;
+
 	class MovementComponent;
 	typedef Core::Weak<MovementComponent> WeakMovementComponent;
 
@@ -64,6 +67,7 @@ class InputComponent : public Game::ComponentBase
                      , public Event::IEventListener
 {
 	WeakActorColliderComponent m_collider;
+	Game::WeakAudioComponent m_audio;
 	Game::WeakMovementComponent m_movement;
 	Game::WeakPositionComponent m_position;
 

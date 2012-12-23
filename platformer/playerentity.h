@@ -44,6 +44,9 @@
 MARSHMALLOW_NAMESPACE_BEGIN
 namespace Game
 {
+	class AudioComponent;
+	typedef Core::Shared<AudioComponent> SharedAudioComponent;
+
 	class AnimationComponent;
 	typedef Core::Shared<AnimationComponent> SharedAnimationComponent;
 
@@ -62,6 +65,7 @@ typedef Core::Shared<ActorColliderComponent> SharedActorColliderComponent;
 
 class PlayerEntity : public Common::ActorEntity
 {
+	Game::SharedAudioComponent m_audio_component;
 	Game::SharedAnimationComponent m_animation_component;
 	Game::SharedMovementComponent m_movement_component;
 	SharedActorColliderComponent m_collider_component;

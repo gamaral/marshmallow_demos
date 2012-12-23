@@ -45,8 +45,11 @@
 #include <event/keyboardevent.h>
 #include <event/touchevent.h>
 
+#include <audio/track.h>
+
 #include <graphics/backend.h>
 
+#include <game/audiocomponent.h>
 #include <game/collidercomponent.h>
 #include <game/engine.h>
 #include <game/iengine.h>
@@ -113,6 +116,10 @@ InputComponent::update(float d)
 	if (!m_collider)
 		m_collider = entity().getComponentType(Game::ColliderComponent::Type()).
 		    staticCast<ActorColliderComponent>();
+
+	if (!m_audio)
+		m_audio = entity().getComponentType(Game::AudioComponent::Type()).
+		    staticCast<Game::AudioComponent>();
 
 	if (!m_position)
 		m_position = entity().getComponentType(Game::PositionComponent::Type()).
@@ -224,6 +231,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 			if (!m_jump &&
 			    l_kevent.action() == Keyboard::KeyPressed &&
 			    m_collider->onPlatform()) {
+				m_audio->track("jump")->play();
 				m_movement->velocity().y = JUMP_MAX;
 				m_boost_fuel = BOOST_MAX;
 			}
