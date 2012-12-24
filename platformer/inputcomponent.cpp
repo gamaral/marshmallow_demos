@@ -258,6 +258,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 			if (!m_jump &&
 			    l_event.action() == Joystick::ButtonPressed &&
 			    m_collider->onPlatform()) {
+				m_audio->track("jump")->play();
 				m_movement->velocity().y = JUMP_MAX;
 				m_boost_fuel = BOOST_MAX;
 			}
@@ -302,17 +303,6 @@ InputComponent::handleEvent(const Event::IEvent &e)
 	else if (e.type() == Event::TouchEvent::Type()) {
 		const Event::TouchEvent &l_event =
 		    static_cast<const Event::TouchEvent &>(e);
-#if 0
-		if (!m_jump && l_event.action() == Input::Touch::Press) {
-			if (m_collider->onPlatform()) {
-				m_movement->velocity().y = JUMP_MAX;
-				m_boost_fuel = BOOST_MAX;
-			}
-			m_jump = true;
-		}
-		else if (m_jump && (l_event.action() == Input::Touch::Release))
-			m_jump = false;
-#endif
 
 		if (l_event.action() == Input::Touch::Press) {
 			if (!m_left && !m_right) {
@@ -329,6 +319,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 			}
 			else {
 				if (!m_jump && m_collider->onPlatform()) {
+					m_audio->track("jump")->play();
 					m_movement->velocity().y = JUMP_MAX;
 					m_boost_fuel = BOOST_MAX;
 				}
@@ -354,6 +345,7 @@ InputComponent::handleEvent(const Event::IEvent &e)
 			}
 			else {
 				if (!m_jump && m_collider->onPlatform()) {
+					m_audio->track("jump")->play();
 					m_movement->velocity().y = JUMP_MAX;
 					m_boost_fuel = BOOST_MAX;
 				}
