@@ -42,6 +42,12 @@
 #include <core/shared.h>
 
 MARSHMALLOW_NAMESPACE_BEGIN
+namespace Audio
+{
+	class PCM;
+	typedef Core::Shared<PCM> SharedPCM;
+}
+
 namespace Game
 {
 	class AudioComponent;
@@ -65,6 +71,7 @@ typedef Core::Shared<ActorColliderComponent> SharedActorColliderComponent;
 
 class PlayerEntity : public Common::ActorEntity
 {
+	Audio::SharedPCM m_audio_pcm;
 	Game::SharedAudioComponent m_audio_component;
 	Game::SharedAnimationComponent m_animation_component;
 	Game::SharedMovementComponent m_movement_component;
