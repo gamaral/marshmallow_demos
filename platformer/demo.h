@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 Marshmallow Engine. All rights reserved.
+ * Copyright 2013 Marshmallow Engine. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -26,72 +26,44 @@
  * or implied, of Marshmallow Engine.
  */
 
-#pragma once
+#ifndef ENGINE_H
+#define ENGINE_H 1
 
-/*!
- * @file
- *
- * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
- */
-
-#ifndef DEMO_PLAYERENTITY_H
-#define DEMO_PLAYERENTITY_H 1
-
-#include "../common/actorentity.h"
+#include <game/enginebase.h>
 
 #include <core/shared.h>
 
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game
-{
-	class AudioComponent;
-	typedef Core::Shared<AudioComponent> SharedAudioComponent;
+#include <audio/pcm.h>
 
-	class AnimationComponent;
-	typedef Core::Shared<AnimationComponent> SharedAnimationComponent;
-
-	class MovementComponent;
-	typedef Core::Shared<MovementComponent> SharedMovementComponent;
-}
-MARSHMALLOW_NAMESPACE_END
+#include <cstdio>
+#include <string>
 
 MARSHMALLOW_NAMESPACE_USE
 
-class InputComponent;
-typedef Core::Shared<InputComponent> SharedInputComponent;
-
-class ActorColliderComponent;
-typedef Core::Shared<ActorColliderComponent> SharedActorColliderComponent;
-
-class PlayerEntity : public Common::ActorEntity
+class Demo : public Game::EngineBase
 {
-	Game::SharedAudioComponent m_audio_component;
-	Game::SharedAnimationComponent m_animation_component;
-	Game::SharedMovementComponent m_movement_component;
-	SharedActorColliderComponent m_collider_component;
-	SharedInputComponent m_input_component;
+	/* Audio */
 
-	int m_direction;
-	float m_moving_sky;
-	double m_moving_sky_bg;
-	bool m_in_motion;
-	bool m_on_platform;
-	bool m_init;
+	Audio::SharedPCM m_audio_pcm;
 
-	NO_ASSIGN_COPY(PlayerEntity);
+	/* Levels */
+
+	char m_current_level[FILENAME_MAX + 1];
+
+	NO_ASSIGN_COPY(Demo);
 public:
+	Demo(void);
+	virtual ~Demo(void);
 
-	PlayerEntity(const Core::Identifier &identifier, Game::EntitySceneLayer &layer);
-	virtual ~PlayerEntity(void);
+	VIRTUAL bool initialize(void);
+	VIRTUAL void finalize(void);
+	VIRTUAL void tick(float delta);
+	VIRTUAL bool handleEvent(const Event::IEvent &e);
 
-public: /* virtual */
+	void loadLevel(const std::string &level = std::string());
 
-	VIRTUAL void update(float delta);
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-
-public: /* static */
-
-	static const Core::Type & Type(void);
+	const Audio::WeakPCM pcm(void) const;
 };
 
 #endif
+

@@ -63,6 +63,7 @@
 #include "../common/doomevent.h"
 #include "../common/warpevent.h"
 #include "actorcollidercomponent.h"
+#include "demo.h"
 #include "inputcomponent.h"
 
 PlayerEntity::PlayerEntity(const Core::Identifier &i, Game::EntitySceneLayer &l)
@@ -133,22 +134,20 @@ PlayerEntity::update(float d)
 		/* audio component */
 		m_audio_component = new Game::AudioComponent("audio", *this);
 
-    
-		m_audio_pcm = new Audio::PCM(48000, 16, 2);
-		if (!m_audio_pcm->isOpen())
-			MMERROR("Failed to open PCM!!!");
+		Demo *l_demo_engine = static_cast<Demo *>(Game::Engine::Instance());
+		Audio::WeakPCM l_audio_pcm = l_demo_engine->pcm();
 
 		Core::SharedDataIO l_music_asset = new Core::FileIO("assets/noragames-shiny_blue.ogg");
 		Audio::SharedCodec l_music_codec = new Audio::OggCodec;
 		l_music_codec->open(l_music_asset);
-		Audio::SharedTrack l_music_track = new Audio::Track(m_audio_pcm, l_music_codec);
+		Audio::SharedTrack l_music_track = new Audio::Track(l_audio_pcm, l_music_codec);
 		m_audio_component->add("music", l_music_track);
 		l_music_track->play(-1);
 
 		Core::SharedDataIO l_sfx_asset = new Core::FileIO("assets/jump.ogg");
 		Audio::SharedCodec l_sfx_codec = new Audio::OggCodec;
 		l_sfx_codec->open(l_sfx_asset);
-		Audio::SharedTrack l_sfx_track = new Audio::Track(m_audio_pcm, l_sfx_codec);
+		Audio::SharedTrack l_sfx_track = new Audio::Track(l_audio_pcm, l_sfx_codec);
 		m_audio_component->add("jump", l_sfx_track);
 
 		pushComponent(m_audio_component.staticCast<Game::IComponent>());
@@ -258,8 +257,6 @@ PlayerEntity::update(float d)
 		default: break;
 		}
 	}
-
-	if (m_init) m_audio_pcm->tick(d);
 
 	Game::EntityBase::update(d);
 }

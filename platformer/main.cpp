@@ -26,72 +26,27 @@
  * or implied, of Marshmallow Engine.
  */
 
-#pragma once
+#include <core/logger.h>
 
-/*!
- * @file
- *
- * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
- */
-
-#ifndef DEMO_PLAYERENTITY_H
-#define DEMO_PLAYERENTITY_H 1
-
-#include "../common/actorentity.h"
-
-#include <core/shared.h>
-
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game
-{
-	class AudioComponent;
-	typedef Core::Shared<AudioComponent> SharedAudioComponent;
-
-	class AnimationComponent;
-	typedef Core::Shared<AnimationComponent> SharedAnimationComponent;
-
-	class MovementComponent;
-	typedef Core::Shared<MovementComponent> SharedMovementComponent;
-}
-MARSHMALLOW_NAMESPACE_END
+#include "demo.h"
 
 MARSHMALLOW_NAMESPACE_USE
+using namespace Core;
 
-class InputComponent;
-typedef Core::Shared<InputComponent> SharedInputComponent;
-
-class ActorColliderComponent;
-typedef Core::Shared<ActorColliderComponent> SharedActorColliderComponent;
-
-class PlayerEntity : public Common::ActorEntity
+int
+MMain(int argc, char *argv[])
 {
-	Game::SharedAudioComponent m_audio_component;
-	Game::SharedAnimationComponent m_animation_component;
-	Game::SharedMovementComponent m_movement_component;
-	SharedActorColliderComponent m_collider_component;
-	SharedInputComponent m_input_component;
+	MMUNUSED(argc);
+	MMUNUSED(argv);
 
-	int m_direction;
-	float m_moving_sky;
-	double m_moving_sky_bg;
-	bool m_in_motion;
-	bool m_on_platform;
-	bool m_init;
+#ifdef DEMO_CWD
+	const char *l_cwd = getenv("MM_DEMO_CWD");
+	if (!l_cwd) l_cwd = DEMO_CWD;
 
-	NO_ASSIGN_COPY(PlayerEntity);
-public:
-
-	PlayerEntity(const Core::Identifier &identifier, Game::EntitySceneLayer &layer);
-	virtual ~PlayerEntity(void);
-
-public: /* virtual */
-
-	VIRTUAL void update(float delta);
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-
-public: /* static */
-
-	static const Core::Type & Type(void);
-};
-
+	if (-1 == MMCHDIR(l_cwd))
+		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
 #endif
+
+	return(Demo().run());
+}
+

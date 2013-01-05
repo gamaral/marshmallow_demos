@@ -37,12 +37,13 @@
 #ifndef DEMO_INPUTCOMPONENT_H
 #define DEMO_INPUTCOMPONENT_H 1
 
-#include <game/componentbase.h>
 #include <event/ieventlistener.h>
 
-#include <list>
+#include <game/componentbase.h>
 
 #include <core/weak.h>
+
+#include <list>
 
 MARSHMALLOW_NAMESPACE_BEGIN
 namespace Game

@@ -1,4 +1,5 @@
-set(DEMO_SRCS "demo0.cpp"
+set(DEMO_SRCS "main.cpp"
+              "demo.cpp"
               "../common/actorentity.cpp"
               "../common/colliderentity.cpp"
               "../common/deathevent.cpp"
