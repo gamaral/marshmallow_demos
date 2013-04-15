@@ -1,3 +1,6 @@
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 file(GLOB DEMO_SRCS *.cpp)
 
 if(MARSHMALLOW_DEMO_LIBRARIES)
@@ -8,17 +11,6 @@ endif()
 
 # BOX2D
 include_directories(${BOX2D_INCLUDE_DIR})
-
-if (MARSHMALLOW_DEMO_CWD_OVERRIDE)
-	if (APPLE)
-		# Xcode workaround
-		set_target_properties(angrymallows_demo PROPERTIES
-		    COMPILE_FLAGS -DDEMO_CWD=\\\\"${CMAKE_CURRENT_SOURCE_DIR}\\\\")
-	else ()
-		set_target_properties(angrymallows_demo PROPERTIES
-		    COMPILE_FLAGS -DDEMO_CWD=\\"${CMAKE_CURRENT_SOURCE_DIR}\\")
-	endif()
-endif()
 
 if(WIN32 AND NOT MARSHMALLOW_DEBUG)
 	set_target_properties(angrymallows_demo PROPERTIES WIN32_EXECUTABLE ON)

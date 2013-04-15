@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 Marshmallow Engine. All rights reserved.
+ * Copyright 2011-2013 Marshmallow Engine. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
@@ -48,6 +48,8 @@
 
 #include <cstdio>
 #include <cstdlib>
+
+#include "config.h"
 
 #define TIMEOUT 16
 #define MESSAGE "Marshmallow!\n123456790~!@#$%%^\nSecond %d"
@@ -187,13 +189,13 @@ MMain(int argc, char *argv[])
 	MMUNUSED(argc);
 	MMUNUSED(argv);
 
-#ifdef DEMO_CWD
 	const char *l_cwd = getenv("MM_DEMO_CWD");
-	if (!l_cwd) l_cwd = DEMO_CWD;
-
-	if (-1 == MMCHDIR(l_cwd))
-		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
+#ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
+	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY"/tilemap";
 #endif
+	if (l_cwd && -1 == MMCHDIR(l_cwd))
+		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
+
 
 	return(Demo().run());
 }
