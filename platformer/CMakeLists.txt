@@ -1,5 +1,5 @@
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
-     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+     DESTINATION ${PROJECT_BINARY_DIR})
 
 set(DEMO_SRCS "main.cpp"
               "demo.cpp"

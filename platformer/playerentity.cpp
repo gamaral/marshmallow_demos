@@ -137,14 +137,14 @@ PlayerEntity::update(float d)
 		Demo *l_demo_engine = static_cast<Demo *>(Game::Engine::Instance());
 		Audio::WeakPCM l_audio_pcm = l_demo_engine->pcm();
 
-		Core::SharedDataIO l_music_asset = new Core::FileIO("assets/noragames-shiny_blue.ogg");
+		Core::SharedDataIO l_music_asset = new Core::FileIO("assets/platformer_music.ogg");
 		Audio::SharedCodec l_music_codec = new Audio::OggCodec;
 		l_music_codec->open(l_music_asset);
 		Audio::SharedTrack l_music_track = new Audio::Track(l_audio_pcm, l_music_codec);
 		m_audio_component->add("music", l_music_track);
 		l_music_track->play(-1);
 
-		Core::SharedDataIO l_sfx_asset = new Core::FileIO("assets/jump.ogg");
+		Core::SharedDataIO l_sfx_asset = new Core::FileIO("assets/platformer_jump.ogg");
 		Audio::SharedCodec l_sfx_codec = new Audio::OggCodec;
 		l_sfx_codec->open(l_sfx_asset);
 		Audio::SharedTrack l_sfx_track = new Audio::Track(l_audio_pcm, l_sfx_codec);

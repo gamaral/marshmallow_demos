@@ -78,7 +78,7 @@ public:
 
 		/* load tmx tilemap */
 		Extra::TMXLoader m_tmxloader(*l_scene);
-		if (!m_tmxloader.load("assets/sewers.tmx"))
+		if (!m_tmxloader.load("assets/tilemap_sewers.tmx"))
 			MMFATAL("Failed to load tilemap asset!");
 
 		sceneManager()->pushScene(l_scene);
@@ -135,7 +135,7 @@ MMain(int argc, char *argv[])
 
 	const char *l_cwd = getenv("MM_DEMO_CWD");
 #ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
-	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY"/tilemap";
+	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
 #endif
 	if (l_cwd && -1 == MMCHDIR(l_cwd))
 		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");

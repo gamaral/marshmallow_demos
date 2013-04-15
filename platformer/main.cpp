@@ -43,7 +43,7 @@ MMain(int argc, char *argv[])
 
 	const char *l_cwd = getenv("MM_DEMO_CWD");
 #ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
-	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY"/platformer";
+	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
 #endif
 	if (l_cwd && -1 == MMCHDIR(l_cwd))
 		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");

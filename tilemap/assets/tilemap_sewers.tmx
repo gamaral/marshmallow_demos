@@ -3,8 +3,8 @@
  <properties>
   <property name="scale" value="1.0"/>
  </properties>
- <tileset firstgid="1" name="sewer_tileset" tilewidth="32" tileheight="32">
-  <image source="sewer_tileset.png" trans="ff00ff" width="256" height="512"/>
+ <tileset firstgid="1" name="tilemap_sewers" tilewidth="32" tileheight="32">
+  <image source="tilemap_sewers.png" trans="ff00ff" width="256" height="512"/>
  </tileset>
  <layer name="Bottom" width="50" height="50">
   <data encoding="base64" compression="zlib">

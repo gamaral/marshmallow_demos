@@ -70,7 +70,7 @@ public:
 
 		if (!m_init) {
 			Graphics::SharedTextureData l_texture = Graphics::Factory::CreateTextureData();
-			if (!l_texture->load("assets/sewer_tileset.png"))
+			if (!l_texture->load("assets/tilemap_sewers.png"))
 				MMFATAL("Failed to load tilemap asset!");
 
 			m_init = true;
@@ -199,7 +199,7 @@ MMain(int argc, char *argv[])
 
 	const char *l_cwd = getenv("MM_DEMO_CWD");
 #ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
-	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY"/tilemap";
+	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
 #endif
 	if (l_cwd && -1 == MMCHDIR(l_cwd))
 		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
