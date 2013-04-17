@@ -60,14 +60,12 @@ using namespace Core;
 
 Demo::Demo(void)
     : EngineBase()
-    , m_audio_pcm(new Audio::PCM(48000, 16, 2))
 {
 	memset(m_current_level, 0, sizeof(m_current_level));
 }
 
 Demo::~Demo(void)
 {
-	m_audio_pcm.clear();
 }
 
 bool
@@ -77,6 +75,8 @@ Demo::initialize(void)
 
 	if (!EngineBase::initialize())
 		return(false);
+
+	m_audio_pcm = new Audio::PCM(48000, 16, 2);
 
 	Graphics::Camera::SetZoom(2.f);
 
@@ -97,6 +97,8 @@ Demo::finalize(void)
 	eventManager()->disconnect(this, Common::WarpEvent::Type());
 	eventManager()->disconnect(this, Event::JoystickButtonEvent::Type());
 	eventManager()->disconnect(this, Event::KeyboardEvent::Type());
+
+	m_audio_pcm.clear();
 
 	EngineBase::finalize();
 }
