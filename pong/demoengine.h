@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,28 +30,50 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#include <core/logger.h>
+#pragma once
 
-#include "demo.h"
+/*!
+ * @file
+ *
+ * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ */
 
-#include "config.h"
+#ifndef MARSHMALLOW_DEMOS_DEMOENGINE_H
+#define MARSHMALLOW_DEMOS_DEMOENGINE_H 1
+
+#include <game/engine.h>
+
+MARSHMALLOW_NAMESPACE_BEGIN
+namespace Audio { class PCM;
+                  class Player; }
+MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
-using namespace Core;
 
-int
-MMain(int argc, char *argv[])
+class DemoScene;
+
+class DemoEngine : public Game::Engine
 {
-	MMUNUSED(argc);
-	MMUNUSED(argv);
+	Audio::PCM *m_audio_pcm;
+	Audio::Player *m_audio_player;
+	DemoScene  *m_main_scene;
 
-	const char *l_cwd = getenv("MM_DEMO_CWD");
-#ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
-	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
+	NO_ASSIGN_COPY(DemoEngine);
+public:
+
+	DemoEngine(void);
+
+	virtual ~DemoEngine(void);
+
+	bool initialize(void);
+
+	void finalize(void);
+
+	Audio::Player * audioPlayer();
+
+public: /* REIMP */
+
+	VIRTUAL void tick(float delta);
+};
+
 #endif
-	if (l_cwd && -1 == MMCHDIR(l_cwd))
-		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
-
-	return(Demo().run());
-}
-

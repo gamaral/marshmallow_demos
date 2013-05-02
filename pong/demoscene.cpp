@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "demoscene.h"
 
 /*!
  * @file
@@ -38,49 +38,21 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef TILEMAP_PLAYERENTITY_H
-#define TILEMAP_PLAYERENTITY_H 1
+#include <core/identifier.h>
 
-#include <core/shared.h>
+#include "ponglayer.h"
 
-#include <game/entity.h>
-
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game
+DemoScene::DemoScene(void)
+    : Game::Scene("game")
+    , m_pong_layer(new PongLayer(*this))
 {
-	class AnimationComponent;
-	typedef Core::Shared<AnimationComponent> SharedAnimationComponent;
+	pushLayer(m_pong_layer);
 }
-MARSHMALLOW_NAMESPACE_END
 
-MARSHMALLOW_NAMESPACE_USE
-
-
-class InputComponent;
-typedef Core::Shared<InputComponent> SharedInputComponent;
-
-class PlayerEntity : public Game::Entity
+DemoScene::~DemoScene(void)
 {
-	Game::SharedAnimationComponent m_animation_component;
-	SharedInputComponent m_input_component;
+	removeLayer(m_pong_layer);
 
-	int m_direction;
-	bool m_in_motion;
-	bool m_init;
+	delete m_pong_layer, m_pong_layer = 0;
+}
 
-	NO_ASSIGN_COPY(PlayerEntity);
-public:
-
-	PlayerEntity(const Core::Identifier &identifier, Game::EntitySceneLayer &layer);
-	virtual ~PlayerEntity(void);
-
-public: /* virtual */
-
-	VIRTUAL void update(float delta);
-
-public: /* static */
-
-	static const Core::Type & Type(void);
-};
-
-#endif

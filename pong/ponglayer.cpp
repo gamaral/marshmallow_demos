@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#include "customfactory.h"
+#include "ponglayer.h"
 
 /*!
  * @file
@@ -38,19 +38,63 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
+#include <core/fileio.h>
 #include <core/identifier.h>
 
-#include "colliderentity.h"
-#include "playerentity.h"
+#include <audio/player.h>
+#include <audio/oggtrack.h>
 
-Game::SharedEntity
-CustomFactory::createEntity(const Core::Type &t, const Core::Identifier &i,
-    Game::EntitySceneLayer &l) const
+#include <game/positioncomponent.h>
+#include <game/scene.h>
+
+#include "demoengine.h"
+#include "pongpaddle.h"
+
+PongLayer::PongLayer(Game::IScene &s)
+    : Game::EntitySceneLayer("pong", s)
+    , m_player_entity(new PongPaddle(*this))
+    , m_computer_entity(new PongPaddle(*this))
 {
-	if (ColliderEntity::Type() == t)
-		return(new ColliderEntity(i, l));
-	else if (PlayerEntity::Type() == t)
-		return(new PlayerEntity(i, l));
-	else return(FactoryBase::createEntity(t, i, l));
+	/* background music */
+	DemoEngine *l_engine =
+	    static_cast<DemoEngine *>(Game::Engine::Instance());
+
+	Audio::Player *l_audio_player = l_engine->audioPlayer();
+	Audio::OggTrack *l_track = new Audio::OggTrack;
+	l_track->setData(new Core::FileIO("assets/noragames-tropical_island.ogg"),
+	                 true);
+
+	l_audio_player->load("music", l_track);
+	l_audio_player->play("music", -1);
+	
+	/* position player paddle */
+
+	Game::PositionComponent *l_position;
+
+	l_position = static_cast<Game::PositionComponent *>
+	    (m_player_entity->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(-300, 0);
+	addEntity(m_player_entity);
+
+	/* position computer paddle */
+
+	l_position = static_cast<Game::PositionComponent *>
+	    (m_computer_entity->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(300, 0);
+	addEntity(m_computer_entity);
+}
+
+PongLayer::~PongLayer(void)
+{
+	DemoEngine *l_engine =
+	    static_cast<DemoEngine *>(Game::Engine::Instance());
+	Audio::Player *l_audio_player = l_engine->audioPlayer();
+
+	Audio::ITrack *l_track = l_audio_player->eject("music");
+	delete l_track, l_track = 0;
+
+	removeEntity(m_player_entity);
+
+	delete m_player_entity, m_player_entity = 0;
 }
 

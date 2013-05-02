@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -38,71 +38,26 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef INPUTCOMPONENT_H
-#define INPUTCOMPONENT_H 1
+#ifndef MARSHMALLOW_DEMOS_PONGPADDLE_H
+#define MARSHMALLOW_DEMOS_PONGPADDLE_H 1
 
-#include <game/componentbase.h>
-#include <event/ieventlistener.h>
+#include <game/entity.h>
 
-#include <core/weak.h>
-
-#include <game/box2d/box2dcomponent.h>
-#include <game/positioncomponent.h>
+MARSHMALLOW_NAMESPACE_BEGIN
+namespace Game { class PositionComponent;
+                 class RenderComponent; }
+MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
 
-class InputComponent : public Game::ComponentBase
-                     , public Event::IEventListener
+class PongPaddle : public Game::Entity
 {
-	enum State {
-		ICFalling,
-		ICStanding,
-		ICJumping
-	};
-
-	Game::WeakPositionComponent m_position;
-	Game::WeakBox2DComponent m_body;
-
-	float m_linear_impulse;
-	float m_angular_impulse;
-
-	State m_state;
-
-	bool m_jump;
-	bool m_left;
-	bool m_right;
-
-	NO_ASSIGN_COPY(InputComponent);
+	Game::PositionComponent *m_position_component;
+	Game::RenderComponent *m_render_component;
 public:
+	PongPaddle(Game::EntitySceneLayer &layer);
 
-	InputComponent(const Core::Identifier &identifier, Game::IEntity &entity);
-	virtual ~InputComponent(void);
-
-	void jump(bool status)
-	    { m_jump = status; }
-
-	void left(bool status)
-	    { m_left = status; }
-
-	void right(bool status)
-	    { m_right = status; }
-
-public: /* virtual */
-
-	VIRTUAL const Core::Type & type(void) const
-	    { return(Type); }
-
-	VIRTUAL void update(float d);
-
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-
-	VIRTUAL bool serialize(XMLElement &node) const;
-	VIRTUAL bool deserialize(XMLElement &node);
-
-public: /* static */
-
-	static const Core::Type Type;
+	virtual ~PongPaddle(void);
 };
 
 #endif
-

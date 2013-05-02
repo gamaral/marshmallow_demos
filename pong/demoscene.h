@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,36 +30,29 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
+#pragma once
+
 /*!
  * @file
  *
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#include <core/logger.h>
+#ifndef MARSHMALLOW_DEMOS_DEMOSCENE_H
+#define MARSHMALLOW_DEMOS_DEMOSCENE_H 1
 
-#include "game.h"
+#include <game/scene.h>
 
-#include <cstdlib>
+MARSHMALLOW_NAMESPACE_USE
 
-#include "config.h"
+class PongLayer;
 
-int
-MMain(int argc, char *argv[])
+class DemoScene : public Game::Scene
 {
-	MMUNUSED(argc);
-	MMUNUSED(argv);
+	PongLayer *m_pong_layer;
+public:
+	DemoScene(void);
+	virtual ~DemoScene(void);
+};
 
-	const char *l_cwd = getenv("MM_DEMO_CWD");
-#ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
-	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
 #endif
-	if (l_cwd && -1 == MMCHDIR(l_cwd))
-		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
-
-	const char *l_filename("assets/angrymallows_default.xml");
-	if (argc > 1) l_filename = argv[1];
-
-	return(Demo(l_filename).run());
-}
-

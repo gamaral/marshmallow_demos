@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "pongpaddle.h"
 
 /*!
  * @file
@@ -38,30 +38,33 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef TILEMAP_BOX2DCOLLIDERENTITY_H
-#define TILEMAP_BOX2DCOLLIDERENTITY_H 1
+#include <core/identifier.h>
 
-#include <game/entity.h>
+#include <graphics/quadmesh.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include <game/positioncomponent.h>
+#include <game/rendercomponent.h>
 
-class ColliderEntity : public Game::Entity
+PongPaddle::PongPaddle(Game::EntitySceneLayer &l)
+    : Game::Entity("player", l)
+    , m_position_component(new Game::PositionComponent("position", *this))
+    , m_render_component(new Game::RenderComponent("render", *this))
 {
-	bool m_init;
+	pushComponent(m_position_component);
 
-	NO_ASSIGN_COPY(ColliderEntity);
-public:
+	Graphics::QuadMesh *l_mesh = new Graphics::QuadMesh(10, 60);
+	l_mesh->setColor(Graphics::Color::White());
+	m_render_component->setMesh(l_mesh);
+	pushComponent(m_render_component);
 
-	ColliderEntity(const Core::Identifier &identifier, Game::EntitySceneLayer &layer);
-	virtual ~ColliderEntity(void);
+}
 
-public: /* virtual */
+PongPaddle::~PongPaddle(void)
+{
+	removeComponent(m_render_component);
+	delete m_render_component, m_render_component = 0;
 
-	VIRTUAL void update(float delta);
+	removeComponent(m_position_component);
+	delete m_position_component, m_position_component = 0;
+}
 
-public: /* static */
-
-	static const Core::Type & Type(void);
-};
-
-#endif

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,44 +30,73 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#ifndef ENGINE_H
-#define ENGINE_H 1
+#include "demoengine.h"
 
-#include <game/enginebase.h>
-
-#include <core/shared.h>
+/*!
+ * @file
+ *
+ * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ */
 
 #include <audio/pcm.h>
+#include <audio/player.h>
 
-#include <cstdio>
-#include <string>
+#include <game/scenemanager.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include "demoscene.h"
 
-class Demo : public Game::EngineBase
+DemoEngine::DemoEngine(void)
+    : Game::Engine()
+    , m_audio_pcm(0)
+    , m_audio_player(0)
+    , m_main_scene(0)
 {
-	/* Audio */
+}
 
-	Audio::SharedPCM m_audio_pcm;
+DemoEngine::~DemoEngine(void)
+{
+}
 
-	/* Levels */
+bool
+DemoEngine::initialize(void)
+{
+	if (!Engine::initialize())
+		return(false);
 
-	char m_current_level[FILENAME_MAX + 1];
+	m_audio_pcm = new Audio::PCM(44100, 16, 1);
+	m_audio_pcm->open(44100, 16, 1);
 
-	NO_ASSIGN_COPY(Demo);
-public:
-	Demo(void);
-	virtual ~Demo(void);
+	m_audio_player = new Audio::Player;
+	m_audio_player->setPCM(m_audio_pcm);
 
-	VIRTUAL bool initialize(void);
-	VIRTUAL void finalize(void);
-	VIRTUAL void tick(float delta);
-	VIRTUAL bool handleEvent(const Event::IEvent &e);
+	m_main_scene = new DemoScene;
+	sceneManager()->pushScene(m_main_scene);
 
-	void loadLevel(const std::string &level = std::string());
+	return(true);
+}
 
-	const Audio::WeakPCM pcm(void) const;
-};
+void
+DemoEngine::finalize(void)
+{
+	sceneManager()->popScene();
 
-#endif
+	delete m_main_scene, m_main_scene = 0;
+	delete m_audio_player, m_audio_player = 0;
+	delete m_audio_pcm, m_audio_pcm = 0;
+
+	Engine::finalize();
+}
+
+Audio::Player *
+DemoEngine::audioPlayer()
+{
+	return(m_audio_player);
+}
+
+void
+DemoEngine::tick(float delta)
+{
+	m_audio_player->tick();
+	Game::Engine::tick(delta);
+}
 

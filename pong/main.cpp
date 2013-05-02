@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,50 +30,28 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#include "colliderentity.h"
+#include <core/logger.h>
 
-/*!
- * @file
- *
- * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
- */
+#include <cstdlib>
 
-#include <core/identifier.h>
-#include <core/shared.h>
+#include "demoengine.h"
+#include "config.h"
 
-#include <game/collidercomponent.h>
-#include <game/sizecomponent.h>
+MARSHMALLOW_NAMESPACE_USE
 
-using namespace Common;
-
-ColliderEntity::ColliderEntity(const Core::Identifier &i, Game::EntitySceneLayer &l)
-    : Game::Entity(i, l)
-    , m_init(false)
+int
+MMain(int argc, char *argv[])
 {
-}
+	MMUNUSED(argc);
+	MMUNUSED(argv);
 
-ColliderEntity::~ColliderEntity(void)
-{
-}
+	const char *l_cwd = getenv("MM_DEMO_CWD");
+#ifdef MARSHMALLOW_DEMO_CWD_OVERRIDE
+	if (!l_cwd) l_cwd = MARSHMALLOW_DEMOS_DIRECTORY;
+#endif
+	if (l_cwd && -1 == MMCHDIR(l_cwd))
+		MMFATAL("Failed to change working directory \"" << l_cwd << "\". ABORT!");
 
-void
-ColliderEntity::update(float d)
-{
-	if (!m_init) {
-		Game::SharedColliderComponent l_collider_component =
-		    new Game::ColliderComponent(id(), *this);
-		l_collider_component->active() = false;
-		pushComponent(l_collider_component.staticCast<Game::IComponent>());
-		m_init = true;
-	}
-
-	Game::EntityBase::update(d);
-}
-
-const Core::Type &
-ColliderEntity::Type(void)
-{
-	static const Core::Type s_type("ColliderEntity");
-	return(s_type);
+	return(DemoEngine().run());
 }
 

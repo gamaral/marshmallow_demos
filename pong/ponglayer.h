@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
+ * Copyright (c) 2013, Guillermo A. Amaral B. (gamaral) <g@maral.me>
  * All rights reserved.
  *
  * This file is part of Marshmallow Game Engine.
@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#include "doomevent.h"
+#pragma once
 
 /*!
  * @file
@@ -38,24 +38,23 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#include <core/identifier.h>
-#include <core/platform.h>
+#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
+#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
 
-using namespace Common;
+#include <game/entityscenelayer.h>
 
-DoomEvent::DoomEvent(MMTIME t)
-    : EventBase(t, Event::HighPriority)
+MARSHMALLOW_NAMESPACE_USE
+
+class PongPaddle;
+
+class PongLayer : public Game::EntitySceneLayer
 {
-}
+	PongPaddle *m_player_entity;
+	PongPaddle *m_computer_entity;
+public:
+	PongLayer(Game::IScene &scene);
 
-DoomEvent::~DoomEvent(void)
-{
-}
+	virtual ~PongLayer(void);
+};
 
-const Core::Type &
-DoomEvent::Type(void)
-{
-	static const Core::Type s_type("Common::DoomEvent");
-	return(s_type);
-}
-
+#endif
