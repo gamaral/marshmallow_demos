@@ -64,7 +64,6 @@ DemoEngine::initialize(void)
 		return(false);
 
 	m_audio_pcm = new Audio::PCM(44100, 16, 1);
-	m_audio_pcm->open(44100, 16, 1);
 
 	m_audio_player = new Audio::Player;
 	m_audio_player->setPCM(m_audio_pcm);
