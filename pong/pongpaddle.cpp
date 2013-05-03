@@ -45,10 +45,10 @@
 #include <game/positioncomponent.h>
 #include <game/rendercomponent.h>
 
-PongPaddle::PongPaddle(Game::EntitySceneLayer &l)
+PongPaddle::PongPaddle(Game::EntitySceneLayer *l)
     : Game::Entity("player", l)
-    , m_position_component(new Game::PositionComponent("position", *this))
-    , m_render_component(new Game::RenderComponent("render", *this))
+    , m_position_component(new Game::PositionComponent("position", this))
+    , m_render_component(new Game::RenderComponent("render", this))
 {
 	pushComponent(m_position_component);
 

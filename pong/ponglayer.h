@@ -52,7 +52,7 @@ class PongLayer : public Game::EntitySceneLayer
 	PongPaddle *m_player_entity;
 	PongPaddle *m_computer_entity;
 public:
-	PongLayer(Game::IScene &scene);
+	PongLayer(Game::IScene *scene);
 
 	virtual ~PongLayer(void);
 };

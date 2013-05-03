@@ -55,7 +55,7 @@ class PongPaddle : public Game::Entity
 	Game::PositionComponent *m_position_component;
 	Game::RenderComponent *m_render_component;
 public:
-	PongPaddle(Game::EntitySceneLayer &layer);
+	PongPaddle(Game::EntitySceneLayer *layer);
 
 	virtual ~PongPaddle(void);
 };

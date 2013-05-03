@@ -44,7 +44,7 @@
 
 DemoScene::DemoScene(void)
     : Game::Scene("game")
-    , m_pong_layer(new PongLayer(*this))
+    , m_pong_layer(new PongLayer(this))
 {
 	pushLayer(m_pong_layer);
 }

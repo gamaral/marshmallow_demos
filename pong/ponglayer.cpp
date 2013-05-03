@@ -50,10 +50,10 @@
 #include "demoengine.h"
 #include "pongpaddle.h"
 
-PongLayer::PongLayer(Game::IScene &s)
+PongLayer::PongLayer(Game::IScene *s)
     : Game::EntitySceneLayer("pong", s)
-    , m_player_entity(new PongPaddle(*this))
-    , m_computer_entity(new PongPaddle(*this))
+    , m_player_entity(new PongPaddle(this))
+    , m_computer_entity(new PongPaddle(this))
 {
 	/* background music */
 	DemoEngine *l_engine =
