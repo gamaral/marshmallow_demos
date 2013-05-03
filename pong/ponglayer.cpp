@@ -56,14 +56,13 @@ PongLayer::PongLayer(Game::IScene *s)
     , m_computer_entity(new PongPaddle(this))
 {
 	/* background music */
-	DemoEngine *l_engine =
-	    static_cast<DemoEngine *>(Game::Engine::Instance());
 
-	Audio::Player *l_audio_player = l_engine->audioPlayer();
 	Audio::OggTrack *l_track = new Audio::OggTrack;
 	l_track->setData(new Core::FileIO("assets/noragames-tropical_island.ogg"),
 	                 true);
 
+	Audio::Player *l_audio_player =
+	    static_cast<DemoEngine *>(Game::Engine::Instance())->audioPlayer();
 	l_audio_player->load("music", l_track);
 	l_audio_player->play("music", -1);
 	
@@ -96,5 +95,6 @@ PongLayer::~PongLayer(void)
 	removeEntity(m_player_entity);
 
 	delete m_player_entity, m_player_entity = 0;
+	delete m_computer_entity, m_computer_entity = 0;
 }
 
