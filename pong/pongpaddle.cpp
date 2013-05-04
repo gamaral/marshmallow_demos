@@ -53,7 +53,7 @@ PongPaddle::PongPaddle(Game::EntitySceneLayer *l)
 	pushComponent(m_position_component);
 
 	Graphics::QuadMesh *l_mesh = new Graphics::QuadMesh(10, 60);
-	l_mesh->setColor(Graphics::Color::White);
+	l_mesh->setColor(Graphics::Color::White());
 	m_render_component->setMesh(l_mesh);
 	pushComponent(m_render_component);
 
