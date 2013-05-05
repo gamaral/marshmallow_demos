@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "pongcourt.h"
 
 /*!
  * @file
@@ -38,23 +38,31 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#include <core/identifier.h>
 
-#include <game/entityscenelayer.h>
+#include <graphics/backend.h>
+#include <graphics/factory.h>
+#include <graphics/itexturedata.h>
+#include <graphics/quadmesh.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include <game/positioncomponent.h>
+#include <game/rendercomponent.h>
 
-class PongBall;
-class PongPaddle;
-class PongWall;
-
-class PongLayer : public Game::EntitySceneLayer
+PongCourt::PongCourt(Game::EntitySceneLayer *l)
+    : Game::Entity("court", l)
 {
-public:
-	PongLayer(Game::IScene *scene);
+	pushComponent(new Game::PositionComponent("position", this));
 
-	virtual ~PongLayer(void);
-};
+	Game::RenderComponent *l_render_component = new Game::RenderComponent("render", this);
 
-#endif
+	Graphics::QuadMesh *l_mesh =
+	    new Graphics::QuadMesh(Graphics::Backend::Size());
+	l_mesh->textureData()->load("assets/background.png");
+	l_render_component->setMesh(l_mesh);
+	pushComponent(l_render_component);
+}
+
+PongCourt::~PongCourt(void)
+{
+}
+

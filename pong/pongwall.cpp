@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "pongwall.h"
 
 /*!
  * @file
@@ -38,23 +38,41 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#include <core/identifier.h>
 
-#include <game/entityscenelayer.h>
+#include <graphics/backend.h>
+#include <graphics/quadmesh.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include <game/collidercomponent.h>
+#include <game/positioncomponent.h>
+#include <game/sizecomponent.h>
 
-class PongBall;
-class PongPaddle;
-class PongWall;
-
-class PongLayer : public Game::EntitySceneLayer
+PongWall::PongWall(Game::EntitySceneLayer *l)
+    : Game::Entity("wall", l)
+    , m_position_component(new Game::PositionComponent("position", this))
+    , m_size_component(new Game::SizeComponent("size", this))
+    , m_collider_component(new Game::BounceColliderComponent("collider", this))
 {
-public:
-	PongLayer(Game::IScene *scene);
+	/* position */
+	pushComponent(m_position_component);
 
-	virtual ~PongLayer(void);
-};
+	/* size */
+	m_size_component->set(Graphics::Backend::Size().width, 10);
+	pushComponent(m_size_component);
 
-#endif
+	/* collider */
+	pushComponent(m_collider_component);
+}
+
+PongWall::~PongWall(void)
+{
+	removeComponent(m_collider_component);
+	delete m_collider_component, m_collider_component = 0;
+
+	removeComponent(m_size_component);
+	delete m_size_component, m_size_component = 0;
+
+	removeComponent(m_position_component);
+	delete m_position_component, m_position_component = 0;
+}
+

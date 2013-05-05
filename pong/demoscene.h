@@ -43,12 +43,17 @@
 
 #include <game/scene.h>
 
+MARSHMALLOW_NAMESPACE_BEGIN
+namespace Game { class CollisionSceneLayer; }
+MARSHMALLOW_NAMESPACE_END
+
 MARSHMALLOW_NAMESPACE_USE
 
 class PongLayer;
 
 class DemoScene : public Game::Scene
 {
+	Game::CollisionSceneLayer *m_collision_layer;
 	PongLayer *m_pong_layer;
 public:
 	DemoScene(void);

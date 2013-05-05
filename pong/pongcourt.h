@@ -38,23 +38,19 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#ifndef MARSHMALLOW_DEMOS_PONGCOURT_H
+#define MARSHMALLOW_DEMOS_PONGCOURT_H 1
 
-#include <game/entityscenelayer.h>
+#include <game/entity.h>
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongBall;
-class PongPaddle;
-class PongWall;
-
-class PongLayer : public Game::EntitySceneLayer
+class PongCourt : public Game::Entity
 {
 public:
-	PongLayer(Game::IScene *scene);
+	PongCourt(Game::EntitySceneLayer *layer);
 
-	virtual ~PongLayer(void);
+	virtual ~PongCourt(void);
 };
 
 #endif

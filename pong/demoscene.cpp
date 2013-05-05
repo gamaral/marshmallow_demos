@@ -40,19 +40,25 @@
 
 #include <core/identifier.h>
 
+#include <game/collisionscenelayer.h>
+
 #include "ponglayer.h"
 
 DemoScene::DemoScene(void)
     : Game::Scene("game")
+    , m_collision_layer(new Game::CollisionSceneLayer("collision", this))
     , m_pong_layer(new PongLayer(this))
 {
+	pushLayer(m_collision_layer);
 	pushLayer(m_pong_layer);
 }
 
 DemoScene::~DemoScene(void)
 {
 	removeLayer(m_pong_layer);
-
 	delete m_pong_layer, m_pong_layer = 0;
+
+	removeLayer(m_collision_layer);
+	delete m_collision_layer, m_collision_layer = 0;
 }
 

@@ -4,8 +4,11 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
 set(MARSHMALLOW_PONG_SRCS "main.cpp"
                           "demoengine.cpp"
                           "demoscene.cpp"
+                          "pongball.cpp"
+                          "pongcourt.cpp"
                           "ponglayer.cpp"
                           "pongpaddle.cpp"
+                          "pongwall.cpp"
 )
 
 if(MARSHMALLOW_DEMO_LIBRARIES)

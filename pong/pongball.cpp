@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "pongball.h"
 
 /*!
  * @file
@@ -38,23 +38,61 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#include <core/identifier.h>
 
-#include <game/entityscenelayer.h>
+#include <graphics/quadmesh.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include <game/collidercomponent.h>
+#include <game/movementcomponent.h>
+#include <game/positioncomponent.h>
+#include <game/rendercomponent.h>
+#include <game/sizecomponent.h>
 
-class PongBall;
-class PongPaddle;
-class PongWall;
-
-class PongLayer : public Game::EntitySceneLayer
+PongBall::PongBall(Game::EntitySceneLayer *l)
+    : Game::Entity("ball", l)
+    , m_movement_component(new Game::MovementComponent("movement", this))
+    , m_position_component(new Game::PositionComponent("position", this))
 {
-public:
-	PongLayer(Game::IScene *scene);
+	/* position */
+	pushComponent(m_position_component);
 
-	virtual ~PongLayer(void);
-};
+	/* movement */
+	m_movement_component->setVelocity(100, 180);
+	pushComponent(m_movement_component);
 
-#endif
+	/* size */
+	Game::SizeComponent *l_size_component =
+	    new Game::SizeComponent("size", this);
+	l_size_component->set(10, 10);
+	pushComponent(l_size_component);
+
+	/* collider */
+	pushComponent(new Game::BounceColliderComponent("collider", this));
+
+	/* render */
+	Graphics::QuadMesh *l_mesh =
+	    new Graphics::QuadMesh(l_size_component->size());
+	l_mesh->setColor(Graphics::Color::White());
+	Game::RenderComponent *l_render_component =
+	    new Game::RenderComponent("render", this);
+	l_render_component->setMesh(l_mesh);
+	pushComponent(l_render_component);
+
+}
+
+PongBall::~PongBall(void)
+{
+}
+
+Game::MovementComponent *
+PongBall::movement(void) const
+{
+	return(m_movement_component);
+}
+
+Game::PositionComponent *
+PongBall::position(void) const
+{
+	return(m_position_component);
+}
+

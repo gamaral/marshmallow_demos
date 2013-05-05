@@ -44,8 +44,10 @@
 #include <game/entity.h>
 
 MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game { class PositionComponent;
-                 class RenderComponent; }
+namespace Game { class ColliderComponent;
+                 class PositionComponent;
+                 class RenderComponent;
+                 class SizeComponent; }
 MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
@@ -53,11 +55,14 @@ MARSHMALLOW_NAMESPACE_USE
 class PongPaddle : public Game::Entity
 {
 	Game::PositionComponent *m_position_component;
-	Game::RenderComponent *m_render_component;
 public:
-	PongPaddle(Game::EntitySceneLayer *layer);
+	PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *layer);
 
 	virtual ~PongPaddle(void);
+
+public: /* reimp */
+
+	VIRTUAL void update(float delta);
 };
 
 #endif

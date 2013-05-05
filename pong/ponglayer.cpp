@@ -41,20 +41,30 @@
 #include <core/fileio.h>
 #include <core/identifier.h>
 
-#include <audio/player.h>
 #include <audio/oggtrack.h>
+#include <audio/player.h>
+
+#include <graphics/backend.h>
 
 #include <game/positioncomponent.h>
 #include <game/scene.h>
 
 #include "demoengine.h"
+#include "pongball.h"
+#include "pongcourt.h"
 #include "pongpaddle.h"
+#include "pongwall.h"
 
 PongLayer::PongLayer(Game::IScene *s)
     : Game::EntitySceneLayer("pong", s)
-    , m_player_entity(new PongPaddle(this))
-    , m_computer_entity(new PongPaddle(this))
 {
+	Game::PositionComponent *l_position;
+	PongBall *l_ball;
+	PongPaddle *l_paddle;
+	PongWall *l_wall;
+
+	const Math::Size2f &l_world_size = Graphics::Backend::Size();
+
 	/* background music */
 
 	Audio::OggTrack *l_track = new Audio::OggTrack;
@@ -66,21 +76,45 @@ PongLayer::PongLayer(Game::IScene *s)
 	l_audio_player->load("music", l_track);
 	l_audio_player->play("music", -1);
 	
-	/* position player paddle */
+	addEntity(new PongCourt(this));
 
-	Game::PositionComponent *l_position;
+	/* position top/bottom walls */
 
+	l_wall = new PongWall(this);
 	l_position = static_cast<Game::PositionComponent *>
-	    (m_player_entity->getComponentType(Game::PositionComponent::Type()));
-	l_position->setPosition(-300, 0);
-	addEntity(m_player_entity);
+	    (l_wall->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(0, l_world_size.height / 2);
+	addEntity(l_wall);
+
+	l_wall = new PongWall(this);
+	l_position = static_cast<Game::PositionComponent *>
+	    (l_wall->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(0, l_world_size.height / -2);
+	addEntity(l_wall);
 
 	/* position computer paddle */
 
+	l_paddle = new PongPaddle("computer", this);
 	l_position = static_cast<Game::PositionComponent *>
-	    (m_computer_entity->getComponentType(Game::PositionComponent::Type()));
-	l_position->setPosition(300, 0);
-	addEntity(m_computer_entity);
+	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(l_world_size.width / 2, 0);
+	l_position->translateX(-20);
+	addEntity(l_paddle);
+
+	/* position player paddle */
+
+	l_paddle = new PongPaddle("player", this);
+	PongPaddle *l_player_entity;
+	l_position = static_cast<Game::PositionComponent *>
+	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
+	l_position->setPosition(l_world_size.width / -2, 0);
+	l_position->translateX(20);
+	addEntity(l_paddle);
+
+	/* ball */
+
+	l_ball = new PongBall(this);
+	addEntity(l_ball);
 }
 
 PongLayer::~PongLayer(void)
@@ -91,10 +125,5 @@ PongLayer::~PongLayer(void)
 
 	Audio::ITrack *l_track = l_audio_player->eject("music");
 	delete l_track, l_track = 0;
-
-	removeEntity(m_player_entity);
-
-	delete m_player_entity, m_player_entity = 0;
-	delete m_computer_entity, m_computer_entity = 0;
 }
 
