@@ -54,7 +54,7 @@
 
 #include <cstdio>
 
-#define PADDLE_SPEED 200.f /* world-pixel's per second */
+#define PADDLE_SPEED 166.f /* world-pixel's per second */
 
 PongPaddle::PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *l)
     : Game::Entity(i, l)
@@ -92,18 +92,19 @@ PongPaddle::update(float d)
 	    static_cast<PongBall *>(layer()->getEntity("ball"));
 	if (!l_ball) return;
 
-	Game::SizeComponent *l_size_component =
-	    static_cast<Game::SizeComponent *>(getComponent("size"));
-	const float l_half_height = l_size_component->height() / 2.f;
-	const float l_whalf_width = Graphics::Backend::Size().width / 2.f;
-	const float l_whalf_height = Graphics::Backend::Size().height / 2.f;
-
-	Game::PositionComponent *l_ball_pos = l_ball->position();
 	Game::MovementComponent *l_ball_mov = l_ball->movement();
 
 	if ((l_ball_mov->velocity().x < 0 && m_position_component->positionX() > 0)
 	    || (l_ball_mov->velocity().x > 0 && m_position_component->positionX() < 0))
 		return;
+
+	Game::SizeComponent *l_size_component =
+	    static_cast<Game::SizeComponent *>(getComponent("size"));
+
+	const float l_half_height = l_size_component->height() / 2.f;
+	const float l_whalf_width = Graphics::Backend::Size().width / 2.f;
+	const float l_whalf_height = Graphics::Backend::Size().height / 2.f;
+	Game::PositionComponent *l_ball_pos = l_ball->position();
 
 	if (l_ball_pos->positionY() > m_position_component->positionY()) {
 		m_position_component->translateY(PADDLE_SPEED * d);

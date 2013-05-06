@@ -40,6 +40,7 @@
 
 #include <core/identifier.h>
 
+#include <graphics/backend.h>
 #include <graphics/quadmesh.h>
 
 #include <game/collidercomponent.h>
@@ -94,5 +95,16 @@ Game::PositionComponent *
 PongBall::position(void) const
 {
 	return(m_position_component);
+}
+
+void
+PongBall::update(float d)
+{
+	Entity::update(d);
+
+	const float l_whalf_width = Graphics::Backend::Size().width / 2.f;
+	if ((m_position_component->positionX() < -l_whalf_width)
+	    || (m_position_component->positionX() > l_whalf_width))
+		m_position_component->setPosition(0, 0);
 }
 
