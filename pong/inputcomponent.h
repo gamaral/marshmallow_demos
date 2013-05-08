@@ -38,24 +38,53 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGPADDLE_H
-#define MARSHMALLOW_DEMOS_PONGPADDLE_H 1
+#ifndef MARSHMALLOW_DEMOS_INPUTCOMPONENT_H
+#define MARSHMALLOW_DEMOS_INPUTCOMPONENT_H 1
 
-#include <game/entity.h>
+#include <game/component.h>
+#include <event/ieventlistener.h>
 
 MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game { class PositionComponent; }
+namespace Game { class MovementComponent; }
 MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongPaddle : public Game::Entity
+class InputComponent : public Game::Component
+                     , public Event::IEventListener
 {
-	Game::PositionComponent *m_position_component;
-public:
-	PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *layer);
+	enum State {
+		Idle = 0,
+		Moving,
+		Stopping 
+	};
 
-	virtual ~PongPaddle(void);
+	Game::MovementComponent *m_movement_component;
+	State m_state;
+
+public:
+	InputComponent(const Core::Identifier &identifier,
+	               Game::IEntity *entity);
+	virtual ~InputComponent(void);
+
+public: /* reimp */
+
+	VIRTUAL const Core::Type & type(void) const
+	        { return(Type()); }
+
+	VIRTUAL void update(float);
+
+	VIRTUAL bool handleEvent(const Event::IEvent &event);
+
+public: /* static */
+
+	static const Core::Type & Type(void);
+
+protected:
+
+	void moveUp(void);
+	void moveDown(void);
+	void stop(void);
 };
 
 #endif

@@ -38,24 +38,41 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGPADDLE_H
-#define MARSHMALLOW_DEMOS_PONGPADDLE_H 1
+#ifndef MARSHMALLOW_DEMOS_AICOMPONENT_H
+#define MARSHMALLOW_DEMOS_AICOMPONENT_H 1
 
-#include <game/entity.h>
+#include <game/component.h>
 
 MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game { class PositionComponent; }
+namespace Game { class PositionComponent;
+                 class SizeComponent; }
 MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongPaddle : public Game::Entity
-{
-	Game::PositionComponent *m_position_component;
-public:
-	PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *layer);
+class PongBall;
 
-	virtual ~PongPaddle(void);
+class AIComponent : public Game::Component
+{
+	PongBall *m_ball;
+	Game::PositionComponent *m_position_component;
+	Game::SizeComponent *m_size_component;
+public:
+	AIComponent(const Core::Identifier &identifier,
+	            Game::IEntity *entity);
+	virtual ~AIComponent(void);
+
+public: /* reimp */
+
+	VIRTUAL const Core::Type & type(void) const
+	        { return(Type()); }
+
+	VIRTUAL void update(float);
+
+public: /* static */
+
+	static const Core::Type & Type(void);
+	
 };
 
 #endif

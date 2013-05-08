@@ -46,10 +46,13 @@
 
 #include <graphics/backend.h>
 
+#include <game/movementcomponent.h>
 #include <game/positioncomponent.h>
 #include <game/scene.h>
 
+#include "aicomponent.h"
 #include "demoengine.h"
+#include "inputcomponent.h"
 #include "pongball.h"
 #include "pongcourt.h"
 #include "pongpaddle.h"
@@ -99,16 +102,18 @@ PongLayer::PongLayer(Game::IScene *s)
 	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
 	l_position->setPosition(l_world_size.width / 2, 0);
 	l_position->translateX(-20);
+	l_paddle->pushComponent(new AIComponent("ai", l_paddle));
 	addEntity(l_paddle);
 
 	/* position player paddle */
 
 	l_paddle = new PongPaddle("player", this);
-	PongPaddle *l_player_entity;
 	l_position = static_cast<Game::PositionComponent *>
 	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
 	l_position->setPosition(l_world_size.width / -2, 0);
 	l_position->translateX(20);
+	l_paddle->pushComponent(new InputComponent("input", l_paddle));
+	l_paddle->pushComponent(new Game::MovementComponent("movement", l_paddle));
 	addEntity(l_paddle);
 
 	/* ball */

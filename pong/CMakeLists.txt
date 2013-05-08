@@ -2,8 +2,10 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
      DESTINATION ${PROJECT_BINARY_DIR})
 
 set(MARSHMALLOW_PONG_SRCS "main.cpp"
+                          "aicomponent.cpp"
                           "demoengine.cpp"
                           "demoscene.cpp"
+                          "inputcomponent.cpp"
                           "pongball.cpp"
                           "pongcourt.cpp"
                           "ponglayer.cpp"
