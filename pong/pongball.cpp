@@ -68,7 +68,10 @@ PongBall::PongBall(Game::EntitySceneLayer *l)
 	pushComponent(l_size_component);
 
 	/* collider */
-	pushComponent(new Game::BounceColliderComponent("collider", this));
+	Game::BounceColliderComponent *l_collider_component =
+	    new Game::BounceColliderComponent("collider", this);
+	l_collider_component->setBullet(true);
+	pushComponent(l_collider_component);
 
 	/* render */
 	Graphics::QuadMesh *l_mesh =

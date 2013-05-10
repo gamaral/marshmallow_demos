@@ -43,19 +43,10 @@
 
 #include <game/entity.h>
 
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Game { class ColliderComponent;
-                 class PositionComponent;
-                 class SizeComponent; }
-MARSHMALLOW_NAMESPACE_END
-
 MARSHMALLOW_NAMESPACE_USE
 
 class PongWall : public Game::Entity
 {
-	Game::PositionComponent *m_position_component;
-	Game::SizeComponent     *m_size_component;
-	Game::ColliderComponent *m_collider_component;
 public:
 	PongWall(Game::EntitySceneLayer *layer);
 

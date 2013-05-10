@@ -56,7 +56,7 @@ PongPaddle::PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *l)
 
 	/* size */
 	Game::SizeComponent *l_size_component = new Game::SizeComponent("size", this);
-	l_size_component->set(10, 60);
+	l_size_component->set(10, 70);
 	pushComponent(l_size_component);
 
 	/* collider */

@@ -49,30 +49,21 @@
 
 PongWall::PongWall(Game::EntitySceneLayer *l)
     : Game::Entity("wall", l)
-    , m_position_component(new Game::PositionComponent("position", this))
-    , m_size_component(new Game::SizeComponent("size", this))
-    , m_collider_component(new Game::BounceColliderComponent("collider", this))
 {
 	/* position */
-	pushComponent(m_position_component);
+	pushComponent(new Game::PositionComponent("position", this));
 
 	/* size */
-	m_size_component->set(Graphics::Backend::Size().width, 10);
-	pushComponent(m_size_component);
+	Game::SizeComponent *l_size_component =
+	    new Game::SizeComponent("size", this);
+	l_size_component->set(Graphics::Backend::Size().width, 10);
+	pushComponent(l_size_component);
 
 	/* collider */
-	pushComponent(m_collider_component);
+	pushComponent(new Game::ColliderComponent("collider", this));
 }
 
 PongWall::~PongWall(void)
 {
-	removeComponent(m_collider_component);
-	delete m_collider_component, m_collider_component = 0;
-
-	removeComponent(m_size_component);
-	delete m_size_component, m_size_component = 0;
-
-	removeComponent(m_position_component);
-	delete m_position_component, m_position_component = 0;
 }
 
