@@ -51,7 +51,7 @@
 PongCourt::PongCourt(Game::EntitySceneLayer *l)
     : Game::Entity("court", l)
 {
-	pushComponent(new Game::PositionComponent("position", this));
+	addComponent(new Game::PositionComponent("position", this));
 
 	Game::RenderComponent *l_render_component = new Game::RenderComponent("render", this);
 
@@ -59,7 +59,7 @@ PongCourt::PongCourt(Game::EntitySceneLayer *l)
 	    new Graphics::QuadMesh(Graphics::Backend::Size());
 	l_mesh->textureData()->load("assets/background.png");
 	l_render_component->setMesh(l_mesh);
-	pushComponent(l_render_component);
+	addComponent(l_render_component);
 }
 
 PongCourt::~PongCourt(void)

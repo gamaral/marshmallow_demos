@@ -63,6 +63,8 @@ public:
 	Game::MovementComponent * movement(void) const;
 	Game::PositionComponent * position(void) const;
 
+	void reset(void);
+
 public: /* reimp */
 
 	VIRTUAL void update(float delta);

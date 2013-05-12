@@ -49,29 +49,30 @@
 #include <game/rendercomponent.h>
 #include <game/sizecomponent.h>
 
+#include <cstdlib>
+
 PongBall::PongBall(Game::EntitySceneLayer *l)
     : Game::Entity("ball", l)
     , m_movement_component(new Game::MovementComponent("movement", this))
     , m_position_component(new Game::PositionComponent("position", this))
 {
 	/* position */
-	pushComponent(m_position_component);
+	addComponent(m_position_component);
 
 	/* movement */
-	m_movement_component->setVelocity(100, 180);
-	pushComponent(m_movement_component);
+	addComponent(m_movement_component);
 
 	/* size */
 	Game::SizeComponent *l_size_component =
 	    new Game::SizeComponent("size", this);
 	l_size_component->set(10, 10);
-	pushComponent(l_size_component);
+	addComponent(l_size_component);
 
 	/* collider */
 	Game::BounceColliderComponent *l_collider_component =
 	    new Game::BounceColliderComponent("collider", this);
 	l_collider_component->setBullet(true);
-	pushComponent(l_collider_component);
+	addComponent(l_collider_component);
 
 	/* render */
 	Graphics::QuadMesh *l_mesh =
@@ -80,8 +81,9 @@ PongBall::PongBall(Game::EntitySceneLayer *l)
 	Game::RenderComponent *l_render_component =
 	    new Game::RenderComponent("render", this);
 	l_render_component->setMesh(l_mesh);
-	pushComponent(l_render_component);
+	addComponent(l_render_component);
 
+	reset();
 }
 
 PongBall::~PongBall(void)
@@ -101,6 +103,18 @@ PongBall::position(void) const
 }
 
 void
+PongBall::reset(void)
+{
+	m_position_component->setPosition(0, 0);
+	const bool l_left =
+	    m_movement_component->velocityX() < 0;
+	const bool l_down =
+	    m_movement_component->velocityY() < 0;
+	m_movement_component->setVelocity((200 + random() % 40) * (l_left ? -1 : 1),
+	                                  (150 + random() % 60) * (l_down ? -1 : 1));
+}
+
+void
 PongBall::update(float d)
 {
 	Entity::update(d);
@@ -108,6 +122,6 @@ PongBall::update(float d)
 	const float l_whalf_width = Graphics::Backend::Size().width / 2.f;
 	if ((m_position_component->positionX() < -l_whalf_width)
 	    || (m_position_component->positionX() > l_whalf_width))
-		m_position_component->setPosition(0, 0);
+		reset();
 }
 

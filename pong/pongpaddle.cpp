@@ -52,21 +52,21 @@ PongPaddle::PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *l)
     , m_position_component(new Game::PositionComponent("position", this))
 {
 	/* position */
-	pushComponent(m_position_component);
+	addComponent(m_position_component);
 
 	/* size */
 	Game::SizeComponent *l_size_component = new Game::SizeComponent("size", this);
 	l_size_component->set(10, 70);
-	pushComponent(l_size_component);
+	addComponent(l_size_component);
 
 	/* collider */
-	pushComponent(new Game::BounceColliderComponent("collider", this));
+	addComponent(new Game::BounceColliderComponent("collider", this));
 
 	/* render */
 	Graphics::QuadMesh *l_mesh = new Graphics::QuadMesh(l_size_component->size());
 	Game::RenderComponent *l_render_component = new Game::RenderComponent("render", this);
 	l_render_component->setMesh(l_mesh);
-	pushComponent(l_render_component);
+	addComponent(l_render_component);
 
 }
 

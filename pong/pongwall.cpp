@@ -51,16 +51,16 @@ PongWall::PongWall(Game::EntitySceneLayer *l)
     : Game::Entity("wall", l)
 {
 	/* position */
-	pushComponent(new Game::PositionComponent("position", this));
+	addComponent(new Game::PositionComponent("position", this));
 
 	/* size */
 	Game::SizeComponent *l_size_component =
 	    new Game::SizeComponent("size", this);
 	l_size_component->set(Graphics::Backend::Size().width, 10);
-	pushComponent(l_size_component);
+	addComponent(l_size_component);
 
 	/* collider */
-	pushComponent(new Game::ColliderComponent("collider", this));
+	addComponent(new Game::ColliderComponent("collider", this));
 }
 
 PongWall::~PongWall(void)
