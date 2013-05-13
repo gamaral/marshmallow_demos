@@ -123,7 +123,7 @@ PongLayer::PongLayer(Game::IScene *s)
 	 */
 
 #ifdef STRESS_TEST
-	for (int i = 0; i < 500; ++i) {
+	for (int i = 0; i < 100; ++i) {
 		addEntity(new PongBall(this));
 	}
 #else

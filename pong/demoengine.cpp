@@ -41,6 +41,8 @@
 #include <audio/pcm.h>
 #include <audio/player.h>
 
+#include <game/audioenginefeature.h>
+#include <game/inputenginefeature.h>
 #include <game/scenemanager.h>
 
 #include "demoscene.h"
@@ -51,6 +53,21 @@ DemoEngine::DemoEngine(void)
     , m_audio_player(0)
     , m_main_scene(0)
 {
+	/*
+	 * Features have to be added before initialization, they will be
+	 * automatically freed unless removed manually.
+	 */
+
+	/*
+	 * Add audio support (Required for OpenAL)
+	 */
+	addFeature(new Game::AudioEngineFeature);
+
+	/*
+	 * Add extra input support (Required for Raspberry Pi [evdev])
+	 */
+	addFeature(new Game::InputEngineFeature);
+
 }
 
 DemoEngine::~DemoEngine(void)
@@ -60,9 +77,6 @@ DemoEngine::~DemoEngine(void)
 bool
 DemoEngine::initialize(void)
 {
-	if (!Engine::initialize())
-		return(false);
-
 	m_audio_pcm = new Audio::PCM(44100, 16, 1);
 
 	m_audio_player = new Audio::Player;
@@ -82,8 +96,6 @@ DemoEngine::finalize(void)
 	delete m_main_scene, m_main_scene = 0;
 	delete m_audio_player, m_audio_player = 0;
 	delete m_audio_pcm, m_audio_pcm = 0;
-
-	Engine::finalize();
 }
 
 Audio::Player *
@@ -93,9 +105,8 @@ DemoEngine::audioPlayer()
 }
 
 void
-DemoEngine::tick(float delta)
+DemoEngine::update(float delta)
 {
 	m_audio_player->tick();
-	Game::Engine::tick(delta);
 }
 

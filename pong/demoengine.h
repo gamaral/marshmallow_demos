@@ -65,15 +65,13 @@ public:
 
 	virtual ~DemoEngine(void);
 
-	bool initialize(void);
-
-	void finalize(void);
-
 	Audio::Player * audioPlayer();
 
-public: /* REIMP */
+protected: /* reimp */
 
-	VIRTUAL void tick(float delta);
+	VIRTUAL void update(float delta);
+	VIRTUAL bool initialize(void);
+	VIRTUAL void finalize(void);
 };
 
 #endif

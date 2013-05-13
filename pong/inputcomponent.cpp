@@ -52,6 +52,7 @@
 InputComponent::InputComponent(const Core::Identifier &i, Game::IEntity *e)
     : Component(i, e)
     , m_movement_component(0)
+    , m_state(Idle)
 {
 	Event::EventManager *l_manager = Event::EventManager::Instance();
 	l_manager->connect(this, Event::KeyboardEvent::Type());
@@ -73,8 +74,16 @@ InputComponent::update(float)
 	}
 
 	if (m_state == Stopping) {
-		m_movement_component->
-		    setAccelerationY(-4 * m_movement_component->velocityY());
+		if (m_movement_component->velocityY() > -1.f
+		    && m_movement_component->velocityY() < 1.f) {
+			m_movement_component->setVelocityY(0);
+			m_movement_component->setAccelerationY(0);
+			m_state = Idle;
+		}
+		else {
+			m_movement_component->
+			    setAccelerationY(-4 * m_movement_component->velocityY());
+		}
 	}
 }
 
