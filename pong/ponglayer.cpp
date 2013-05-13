@@ -122,12 +122,13 @@ PongLayer::PongLayer(Game::IScene *s)
 	 *
 	 */
 
+#define STRESS_TEST
 #ifdef STRESS_TEST
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 600; ++i) {
 		addEntity(new PongBall(this));
 	}
 #else
-	/* ball */
+	/* drop a ball */
 
 	addEntity(new PongBall(this));
 #endif
