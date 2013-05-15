@@ -60,7 +60,10 @@ PongWall::PongWall(Game::EntitySceneLayer *l)
 	addComponent(l_size_component);
 
 	/* collider */
-	addComponent(new Game::ColliderComponent("collider", this));
+	Game::ColliderComponent *l_collider_component =
+	    new Game::ColliderComponent("collider", this);
+	l_collider_component->setActive(false);
+	addComponent(l_collider_component);
 }
 
 PongWall::~PongWall(void)

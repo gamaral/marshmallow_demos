@@ -60,7 +60,10 @@ PongPaddle::PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *l)
 	addComponent(l_size_component);
 
 	/* collider */
-	addComponent(new Game::BounceColliderComponent("collider", this));
+	Game::ColliderComponent *l_collider_component =
+	    new Game::BounceColliderComponent("collider", this);
+	l_collider_component->setFlag(Game::ColliderComponent::LockXAxis);
+	addComponent(l_collider_component);
 
 	/* render */
 	Graphics::QuadMesh *l_mesh = new Graphics::QuadMesh(l_size_component->size());

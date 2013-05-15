@@ -62,7 +62,6 @@ PongLayer::PongLayer(Game::IScene *s)
     : Game::EntitySceneLayer("pong", s)
 {
 	Game::PositionComponent *l_position;
-	PongBall *l_ball;
 	PongPaddle *l_paddle;
 	PongWall *l_wall;
 
@@ -122,11 +121,9 @@ PongLayer::PongLayer(Game::IScene *s)
 	 *
 	 */
 
-#define STRESS_TEST
 #ifdef STRESS_TEST
-	for (int i = 0; i < 600; ++i) {
+	for (int i = 0; i < 100; ++i)
 		addEntity(new PongBall(this));
-	}
 #else
 	/* drop a ball */
 
