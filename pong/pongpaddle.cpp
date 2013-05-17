@@ -70,7 +70,6 @@ PongPaddle::PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *l)
 	Game::RenderComponent *l_render_component = new Game::RenderComponent("render", this);
 	l_render_component->setMesh(l_mesh);
 	addComponent(l_render_component);
-
 }
 
 PongPaddle::~PongPaddle(void)

@@ -45,6 +45,7 @@
 
 #include <game/collidercomponent.h>
 #include <game/positioncomponent.h>
+#include <game/rendercomponent.h>
 #include <game/sizecomponent.h>
 
 PongWall::PongWall(Game::EntitySceneLayer *l)
@@ -64,6 +65,12 @@ PongWall::PongWall(Game::EntitySceneLayer *l)
 	    new Game::ColliderComponent("collider", this);
 	l_collider_component->setActive(false);
 	addComponent(l_collider_component);
+
+	/* render */
+	Graphics::QuadMesh *l_mesh = new Graphics::QuadMesh(l_size_component->size());
+	Game::RenderComponent *l_render_component = new Game::RenderComponent("render", this);
+	l_render_component->setMesh(l_mesh);
+	addComponent(l_render_component);
 }
 
 PongWall::~PongWall(void)
