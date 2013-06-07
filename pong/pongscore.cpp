@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "pongscore.h"
 
 /*!
  * @file
@@ -38,19 +38,45 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#include <core/identifier.h>
 
-#include <game/entityscenelayer.h>
+#include <graphics/factory.h>
+#include <graphics/itexturedata.h>
+#include <graphics/tileset.h>
 
-MARSHMALLOW_NAMESPACE_USE
+#include <game/positioncomponent.h>
+#include <game/textcomponent.h>
+#include <game/tilesetcomponent.h>
 
-class PongLayer : public Game::EntitySceneLayer
+PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
+    : Entity(i, l)
+    , m_texture_data(0)
+    , m_position_component(0)
+    , m_tileset_component(0)
+    , m_text_component(0)
 {
-public:
-	PongLayer(Game::IScene *scene);
+	m_position_component = new Game::PositionComponent("position", this);
+	addComponent(m_position_component);
 
-	virtual ~PongLayer(void);
-};
+	m_texture_data = Graphics::Factory::CreateTextureData();
+	m_texture_data->load("assets/terminus.png");
 
-#endif
+	Graphics::Tileset *l_tileset = new Graphics::Tileset;
+	l_tileset->setTextureData(m_texture_data);
+	l_tileset->setTileSize(Math::Size2i(16, 32));
+
+	m_tileset_component = new Game::TilesetComponent("tileset", this);
+	m_tileset_component->setTileset(l_tileset);
+	addComponent(m_tileset_component);
+
+	m_text_component = new Game::TextComponent("score", this);
+	m_text_component->setText("0");
+	m_text_component->setScale(2);
+	addComponent(m_text_component);
+}
+
+PongScore::~PongScore(void)
+{
+	delete m_texture_data, m_texture_data = 0;
+}
+

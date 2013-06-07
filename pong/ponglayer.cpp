@@ -56,6 +56,7 @@
 #include "pongball.h"
 #include "pongcourt.h"
 #include "pongpaddle.h"
+#include "pongscore.h"
 #include "pongwall.h"
 
 PongLayer::PongLayer(Game::IScene *s)
@@ -63,6 +64,7 @@ PongLayer::PongLayer(Game::IScene *s)
 {
 	Game::PositionComponent *l_position;
 	PongPaddle *l_paddle;
+	PongScore *l_score;
 	PongWall *l_wall;
 
 	const Math::Size2f &l_world_size = Graphics::Backend::Size();
@@ -114,6 +116,10 @@ PongLayer::PongLayer(Game::IScene *s)
 	l_paddle->addComponent(new InputComponent("input", l_paddle));
 	l_paddle->addComponent(new Game::MovementComponent("movement", l_paddle));
 	addEntity(l_paddle);
+
+	/* score */
+	
+	addEntity(new PongScore("score", this));
 
 	/* STRESS TEST
 	 *

@@ -10,6 +10,7 @@ set(MARSHMALLOW_PONG_SRCS "main.cpp"
                           "pongcourt.cpp"
                           "ponglayer.cpp"
                           "pongpaddle.cpp"
+                          "pongscore.cpp"
                           "pongwall.cpp"
 )
 

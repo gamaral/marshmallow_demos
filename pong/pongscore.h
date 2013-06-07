@@ -38,19 +38,38 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#ifndef MARSHMALLOW_DEMOS_PONGSCORE_H
+#define MARSHMALLOW_DEMOS_PONGSCORE_H 1
 
-#include <game/entityscenelayer.h>
+#include <game/entity.h>
+
+MARSHMALLOW_NAMESPACE_BEGIN
+namespace Graphics { struct ITextureData; }
+
+namespace Game { class PositionComponent;
+                 class TextComponent;
+                 class TilesetComponent; }
+MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongLayer : public Game::EntitySceneLayer
+class PongScore : public Game::Entity
 {
+	Graphics::ITextureData *m_texture_data;
+	Game::PositionComponent *m_position_component;
+	Game::TilesetComponent *m_tileset_component;
+	Game::TextComponent *m_text_component;
 public:
-	PongLayer(Game::IScene *scene);
+	PongScore(const Core::Identifier& id, Game::EntitySceneLayer *layer);
 
-	virtual ~PongLayer(void);
+	virtual ~PongScore(void);
+
+	Game::PositionComponent * position(void) const
+	    { return m_position_component; }
+	Game::TextComponent * text(void) const
+	    { return m_text_component; }
+	Game::TilesetComponent * tileset(void) const
+	    { return m_tileset_component; }
 };
 
 #endif
