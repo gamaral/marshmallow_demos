@@ -48,6 +48,8 @@
 #include <game/textcomponent.h>
 #include <game/tilesetcomponent.h>
 
+#include <cstdio>
+
 PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
     : Entity(i, l)
     , m_texture_data(0)
@@ -70,13 +72,35 @@ PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
 	addComponent(m_tileset_component);
 
 	m_text_component = new Game::TextComponent("score", this);
-	m_text_component->setText("0");
 	m_text_component->setScale(2);
 	addComponent(m_text_component);
+	reset();
 }
 
 PongScore::~PongScore(void)
 {
 	delete m_texture_data, m_texture_data = 0;
+}
+
+void
+PongScore::addPoint(void)
+{
+	++m_score;
+	updateTextComponent();
+}
+
+void
+PongScore::reset(void)
+{
+	m_score = 0;
+	updateTextComponent();
+}
+
+void
+PongScore::updateTextComponent(void)
+{
+	char l_str[4];
+	sprintf(l_str, "%d", m_score);
+	m_text_component->setText(l_str);
 }
 

@@ -44,12 +44,16 @@
 #include <graphics/quadmesh.h>
 
 #include <game/collidercomponent.h>
+#include <game/entityscenelayer.h>
 #include <game/movementcomponent.h>
 #include <game/positioncomponent.h>
 #include <game/rendercomponent.h>
 #include <game/sizecomponent.h>
 
+#include <cassert>
 #include <cstdlib>
+
+#include "pongscore.h"
 
 PongBall::PongBall(Game::EntitySceneLayer *l)
     : Game::Entity("ball", l)
@@ -102,13 +106,22 @@ PongBall::position(void) const
 void
 PongBall::reset(void)
 {
+	PongScore *ps = 0;
+
+	if (m_position_component->positionX() < 0)
+		ps = static_cast<PongScore *>(layer()->getEntity("p2score"));
+	else if (m_position_component->positionX() > 0)
+		ps = static_cast<PongScore *>(layer()->getEntity("p1score"));
+
+	if (ps) ps->addPoint();
+
 	m_position_component->setPosition(0, 0);
 	const bool l_left =
 	    m_movement_component->velocityX() < 0;
 	const bool l_down =
 	    m_movement_component->velocityY() < 0;
-	m_movement_component->setVelocity((200 + random() % 40) * (l_left ? -1 : 1),
-	                                  (150 + random() % 60) * (l_down ? -1 : 1));
+	m_movement_component->setVelocity((300 + random() % 40) * (l_left ? -1 : 1),
+	                                  (250 + random() % 60) * (l_down ? -1 : 1));
 }
 
 void

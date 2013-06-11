@@ -55,10 +55,11 @@ MARSHMALLOW_NAMESPACE_USE
 
 class PongScore : public Game::Entity
 {
-	Graphics::ITextureData *m_texture_data;
+	Graphics::ITextureData  *m_texture_data;
 	Game::PositionComponent *m_position_component;
-	Game::TilesetComponent *m_tileset_component;
-	Game::TextComponent *m_text_component;
+	Game::TilesetComponent  *m_tileset_component;
+	Game::TextComponent     *m_text_component;
+	int m_score;
 public:
 	PongScore(const Core::Identifier& id, Game::EntitySceneLayer *layer);
 
@@ -70,6 +71,12 @@ public:
 	    { return m_text_component; }
 	Game::TilesetComponent * tileset(void) const
 	    { return m_tileset_component; }
+	
+	void addPoint(void);
+	void reset(void);
+
+private:
+	void updateTextComponent(void);
 };
 
 #endif

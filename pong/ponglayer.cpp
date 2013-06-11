@@ -117,9 +117,15 @@ PongLayer::PongLayer(Game::IScene *s)
 	l_paddle->addComponent(new Game::MovementComponent("movement", l_paddle));
 	addEntity(l_paddle);
 
-	/* score */
+	/* scores */
 	
-	addEntity(new PongScore("score", this));
+	PongScore *p1score = new PongScore("p1score", this);
+	p1score->position()->setPosition(-180, 230);
+	addEntity(p1score);
+
+	PongScore *p2score = new PongScore("p2score", this);
+	p2score->position()->setPosition(180, 230);
+	addEntity(p2score);
 
 	/* STRESS TEST
 	 *
