@@ -40,6 +40,8 @@
 
 #include <core/identifier.h>
 
+#include <event/eventmanager.h>
+
 #include <graphics/backend.h>
 #include <graphics/quadmesh.h>
 
@@ -53,7 +55,7 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "pongscore.h"
+#include "scoreevent.h"
 
 PongBall::PongBall(Game::EntitySceneLayer *l)
     : Game::Entity("ball", l)
@@ -106,14 +108,10 @@ PongBall::position(void) const
 void
 PongBall::reset(void)
 {
-	PongScore *ps = 0;
-
-	if (m_position_component->positionX() < 0)
-		ps = static_cast<PongScore *>(layer()->getEntity("p2score"));
-	else if (m_position_component->positionX() > 0)
-		ps = static_cast<PongScore *>(layer()->getEntity("p1score"));
-
-	if (ps) ps->addPoint();
+	if (m_position_component->positionX() != 0) {
+		Event::EventManager::Instance()->
+		    queue(new ScoreEvent(m_position_component->positionX()));
+	}
 
 	m_position_component->setPosition(0, 0);
 	const bool l_left =

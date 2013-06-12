@@ -12,6 +12,7 @@ set(MARSHMALLOW_PONG_SRCS "main.cpp"
                           "pongpaddle.cpp"
                           "pongscore.cpp"
                           "pongwall.cpp"
+                          "scoreevent.cpp"
 )
 
 if(MARSHMALLOW_DEMO_LIBRARIES)

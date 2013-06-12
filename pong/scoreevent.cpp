@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "scoreevent.h"
 
 /*!
  * @file
@@ -38,51 +38,13 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGSCORE_H
-#define MARSHMALLOW_DEMOS_PONGSCORE_H 1
-
-#include <game/entity.h>
-#include <event/ieventlistener.h>
-
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Graphics { struct ITextureData; }
-
-namespace Game { class PositionComponent;
-                 class TextComponent;
-                 class TilesetComponent; }
-MARSHMALLOW_NAMESPACE_END
-
-MARSHMALLOW_NAMESPACE_USE
-
-class PongScore : public Game::Entity
-                , public Event::IEventListener
+ScoreEvent::ScoreEvent(float p)
+    : Event()
+    , m_position(p)
 {
-	Graphics::ITextureData  *m_texture_data;
-	Game::PositionComponent *m_position_component;
-	Game::TilesetComponent  *m_tileset_component;
-	Game::TextComponent     *m_text_component;
-	int m_score;
-public:
-	PongScore(const Core::Identifier& id, Game::EntitySceneLayer *layer);
+}
 
-	virtual ~PongScore(void);
+ScoreEvent::~ScoreEvent(void)
+{
+}
 
-	Game::PositionComponent * position(void) const
-	    { return m_position_component; }
-	Game::TextComponent * text(void) const
-	    { return m_text_component; }
-	Game::TilesetComponent * tileset(void) const
-	    { return m_tileset_component; }
-	
-	void addPoint(void);
-	void reset(void);
-
-public: /* reimp */
-
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-
-private:
-	void updateTextComponent(void);
-};
-
-#endif

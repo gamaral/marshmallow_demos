@@ -40,6 +40,8 @@
 
 #include <core/identifier.h>
 
+#include <event/eventmanager.h>
+
 #include <graphics/factory.h>
 #include <graphics/itexturedata.h>
 #include <graphics/tileset.h>
@@ -49,6 +51,8 @@
 #include <game/tilesetcomponent.h>
 
 #include <cstdio>
+
+#include "scoreevent.h"
 
 PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
     : Entity(i, l)
@@ -75,6 +79,10 @@ PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
 	m_text_component->setScale(2);
 	addComponent(m_text_component);
 	reset();
+
+	/* register score event */
+
+	Event::EventManager::Instance()->connect(this, ScoreEvent::Type());
 }
 
 PongScore::~PongScore(void)
@@ -94,6 +102,24 @@ PongScore::reset(void)
 {
 	m_score = 0;
 	updateTextComponent();
+}
+
+bool
+PongScore::handleEvent(const Event::IEvent &event)
+{
+	if (event.type() != ScoreEvent::Type())
+		return(false);
+	
+	const ScoreEvent &l_score_event =
+	    static_cast<const ScoreEvent &>(event);
+
+	if ((m_position_component->positionX() < 0
+	      && l_score_event.position() > 0)
+	    || (m_position_component->positionX() > 0
+	      && l_score_event.position() < 0))
+		addPoint();
+
+	return(false);
 }
 
 void

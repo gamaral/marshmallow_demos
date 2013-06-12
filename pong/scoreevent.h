@@ -38,51 +38,39 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGSCORE_H
-#define MARSHMALLOW_DEMOS_PONGSCORE_H 1
+#ifndef MARSHMALLOW_DEMOS_SCOREEVENT_H
+#define MARSHMALLOW_DEMOS_SCOREEVENT_H 1
 
-#include <game/entity.h>
-#include <event/ieventlistener.h>
+#include <event/event.h>
 
-MARSHMALLOW_NAMESPACE_BEGIN
-namespace Graphics { struct ITextureData; }
-
-namespace Game { class PositionComponent;
-                 class TextComponent;
-                 class TilesetComponent; }
-MARSHMALLOW_NAMESPACE_END
+#include <core/type.h>
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongScore : public Game::Entity
-                , public Event::IEventListener
+class ScoreEvent : public Event::Event
 {
-	Graphics::ITextureData  *m_texture_data;
-	Game::PositionComponent *m_position_component;
-	Game::TilesetComponent  *m_tileset_component;
-	Game::TextComponent     *m_text_component;
-	int m_score;
 public:
-	PongScore(const Core::Identifier& id, Game::EntitySceneLayer *layer);
 
-	virtual ~PongScore(void);
+	ScoreEvent(float position);
+	virtual ~ScoreEvent(void);
 
-	Game::PositionComponent * position(void) const
-	    { return m_position_component; }
-	Game::TextComponent * text(void) const
-	    { return m_text_component; }
-	Game::TilesetComponent * tileset(void) const
-	    { return m_tileset_component; }
-	
-	void addPoint(void);
-	void reset(void);
+	float position(void) const
+	    { return(m_position); }
 
 public: /* reimp */
 
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
+	VIRTUAL const Core::Type & type(void) const
+	    { return(Type()); }
+
+public: /* static */
+
+	static const Core::Type & Type(void)
+	    { static Core::Type s_type("ScoreEvent");
+	      return(s_type); }
 
 private:
-	void updateTextComponent(void);
+
+	float m_position;
 };
 
 #endif
