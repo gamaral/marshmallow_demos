@@ -3,6 +3,8 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets
 
 set(MARSHMALLOW_PONG_SRCS "main.cpp"
                           "aicomponent.cpp"
+                          "ballbounceevent.cpp"
+                          "ballcollider.cpp"
                           "demoengine.cpp"
                           "demoscene.cpp"
                           "inputcomponent.cpp"

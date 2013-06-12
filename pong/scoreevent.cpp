@@ -48,3 +48,10 @@ ScoreEvent::~ScoreEvent(void)
 {
 }
 
+const Core::Type &
+ScoreEvent::Type(void)
+{
+	static const Core::Type s_type("ScoreEvent");
+	return(s_type);
+}
+

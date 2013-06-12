@@ -38,25 +38,30 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#ifndef MARSHMALLOW_DEMOS_BALLBOUNCEEVENT_H
+#define MARSHMALLOW_DEMOS_BALLBOUNCEEVENT_H 1
 
-#include <game/entityscenelayer.h>
-#include <event/ieventlistener.h>
+#include <event/event.h>
+
+#include <core/type.h>
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongLayer : public Game::EntitySceneLayer
-                , public Event::IEventListener
+class BallBounceEvent : public Event::Event
 {
 public:
-	PongLayer(Game::IScene *scene);
 
-	virtual ~PongLayer(void);
+	BallBounceEvent(void);
+	virtual ~BallBounceEvent(void);
 
 public: /* reimp */
 
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
+	VIRTUAL const Core::Type & type(void) const
+	    { return(Type()); }
+
+public: /* static */
+
+	static const Core::Type & Type(void);
 };
 
 #endif

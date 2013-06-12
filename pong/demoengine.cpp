@@ -67,7 +67,6 @@ DemoEngine::DemoEngine(void)
 	 * Add extra input support (Required for Raspberry Pi [evdev])
 	 */
 	addFeature(new Game::InputEngineFeature);
-
 }
 
 DemoEngine::~DemoEngine(void)

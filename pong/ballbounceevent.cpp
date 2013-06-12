@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "ballbounceevent.h"
 
 /*!
  * @file
@@ -38,25 +38,19 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
-
-#include <game/entityscenelayer.h>
-#include <event/ieventlistener.h>
-
-MARSHMALLOW_NAMESPACE_USE
-
-class PongLayer : public Game::EntitySceneLayer
-                , public Event::IEventListener
+BallBounceEvent::BallBounceEvent(void)
+    : Event()
 {
-public:
-	PongLayer(Game::IScene *scene);
+}
 
-	virtual ~PongLayer(void);
+BallBounceEvent::~BallBounceEvent(void)
+{
+}
 
-public: /* reimp */
+const Core::Type &
+BallBounceEvent::Type(void)
+{
+	static const Core::Type s_type("BallBounceEvent");
+	return(s_type);
+}
 
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-};
-
-#endif

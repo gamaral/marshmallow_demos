@@ -55,6 +55,7 @@
 #include <cassert>
 #include <cstdlib>
 
+#include "ballcollider.h"
 #include "scoreevent.h"
 
 PongBall::PongBall(Game::EntitySceneLayer *l)
@@ -75,7 +76,7 @@ PongBall::PongBall(Game::EntitySceneLayer *l)
 	addComponent(l_size_component);
 
 	/* collider */
-	addComponent(new Game::SimpleColliderComponent("collider", this));
+	addComponent(new BallCollider("collider", this));
 
 	/* render */
 	Graphics::QuadMesh *l_mesh =

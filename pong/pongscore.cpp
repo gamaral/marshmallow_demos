@@ -80,13 +80,17 @@ PongScore::PongScore(const Core::Identifier &i, Game::EntitySceneLayer *l)
 	addComponent(m_text_component);
 	reset();
 
-	/* register score event */
+	/* register event */
 
 	Event::EventManager::Instance()->connect(this, ScoreEvent::Type());
 }
 
 PongScore::~PongScore(void)
 {
+	/* disconnect registered event */
+
+	Event::EventManager::Instance()->disconnect(this, ScoreEvent::Type());
+
 	delete m_texture_data, m_texture_data = 0;
 }
 

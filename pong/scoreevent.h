@@ -64,9 +64,7 @@ public: /* reimp */
 
 public: /* static */
 
-	static const Core::Type & Type(void)
-	    { static Core::Type s_type("ScoreEvent");
-	      return(s_type); }
+	static const Core::Type & Type(void);
 
 private:
 

@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#pragma once
+#include "ballcollider.h"
 
 /*!
  * @file
@@ -38,25 +38,25 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#include <event/eventmanager.h>
 
-#include <game/entityscenelayer.h>
-#include <event/ieventlistener.h>
+#include "ballbounceevent.h"
 
-MARSHMALLOW_NAMESPACE_USE
-
-class PongLayer : public Game::EntitySceneLayer
-                , public Event::IEventListener
+BallCollider::BallCollider(const Core::Identifier &i, Game::IEntity *e)
+    : SimpleColliderComponent(i, e)
 {
-public:
-	PongLayer(Game::IScene *scene);
+}
 
-	virtual ~PongLayer(void);
+BallCollider::~BallCollider(void)
+{
+}
 
-public: /* reimp */
+bool
+BallCollider::collision(ColliderComponent &collider,
+                        float delta,
+                        const CollisionData &data)
+{
+	Event::EventManager::Instance()->queue(new BallBounceEvent);
+	return(SimpleColliderComponent::collision(collider, delta, data));
+}
 
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
-};
-
-#endif

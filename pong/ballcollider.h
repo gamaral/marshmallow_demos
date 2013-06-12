@@ -38,25 +38,25 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_PONGLAYER_H
-#define MARSHMALLOW_DEMOS_PONGLAYER_H 1
+#ifndef MARSHMALLOW_DEMOS_BALLCOLLIDER_H
+#define MARSHMALLOW_DEMOS_BALLCOLLIDER_H 1
 
-#include <game/entityscenelayer.h>
-#include <event/ieventlistener.h>
+#include <game/collidercomponent.h>
 
 MARSHMALLOW_NAMESPACE_USE
 
-class PongLayer : public Game::EntitySceneLayer
-                , public Event::IEventListener
+class BallCollider : public Game::SimpleColliderComponent
 {
 public:
-	PongLayer(Game::IScene *scene);
+	BallCollider(const Core::Identifier &identifier,
+	             Game::IEntity *entity);
+	virtual ~BallCollider(void);
 
-	virtual ~PongLayer(void);
+protected:
 
-public: /* reimp */
-
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
+	VIRTUAL bool collision(ColliderComponent &collider,
+	                       float delta,
+	                       const CollisionData &data);
 };
 
 #endif
