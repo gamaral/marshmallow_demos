@@ -60,8 +60,8 @@
 
 PongBall::PongBall(Game::EntitySceneLayer *l)
     : Game::Entity("ball", l)
-    , m_movement_component(new Game::MovementComponent("movement", this))
     , m_position_component(new Game::PositionComponent("position", this))
+    , m_movement_component(new Game::MovementComponent("movement", this))
 {
 	/* position */
 	addComponent(m_position_component);

@@ -42,21 +42,15 @@
 #define MARSHMALLOW_DEMOS_PONGLAYER_H 1
 
 #include <game/entityscenelayer.h>
-#include <event/ieventlistener.h>
 
 MARSHMALLOW_NAMESPACE_USE
 
 class PongLayer : public Game::EntitySceneLayer
-                , public Event::IEventListener
 {
 public:
 	PongLayer(Game::IScene *scene);
 
 	virtual ~PongLayer(void);
-
-public: /* reimp */
-
-	VIRTUAL bool handleEvent(const Event::IEvent &event);
 };
 
 #endif

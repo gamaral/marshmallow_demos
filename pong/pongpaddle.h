@@ -56,6 +56,9 @@ public:
 	PongPaddle(const Core::Identifier &i, Game::EntitySceneLayer *layer);
 
 	virtual ~PongPaddle(void);
+
+	Game::PositionComponent *position() const
+	    { return(m_position_component); }
 };
 
 #endif

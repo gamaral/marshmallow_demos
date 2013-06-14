@@ -42,6 +42,7 @@
 #define MARSHMALLOW_DEMOS_DEMOSCENE_H 1
 
 #include <game/scene.h>
+#include <event/ieventlistener.h>
 
 MARSHMALLOW_NAMESPACE_BEGIN
 namespace Game { class CollisionSceneLayer; }
@@ -52,12 +53,17 @@ MARSHMALLOW_NAMESPACE_USE
 class PongLayer;
 
 class DemoScene : public Game::Scene
+                , public Event::IEventListener
 {
 	Game::CollisionSceneLayer *m_collision_layer;
 	PongLayer *m_pong_layer;
 public:
 	DemoScene(void);
 	virtual ~DemoScene(void);
+
+public: /* reimp */
+
+	VIRTUAL bool handleEvent(const Event::IEvent &event);
 };
 
 #endif

@@ -38,31 +38,20 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#include <core/fileio.h>
 #include <core/identifier.h>
-
-#include <audio/oggtrack.h>
-#include <audio/player.h>
-#include <audio/wavetrack.h>
-
-#include <event/eventmanager.h>
 
 #include <graphics/backend.h>
 
 #include <game/movementcomponent.h>
 #include <game/positioncomponent.h>
-#include <game/scene.h>
 
 #include "aicomponent.h"
-#include "ballbounceevent.h"
-#include "demoengine.h"
 #include "inputcomponent.h"
 #include "pongball.h"
 #include "pongcourt.h"
 #include "pongpaddle.h"
 #include "pongscore.h"
 #include "pongwall.h"
-#include "scoreevent.h"
 
 PongLayer::PongLayer(Game::IScene *s)
     : Game::EntitySceneLayer("pong", s)
@@ -74,31 +63,6 @@ PongLayer::PongLayer(Game::IScene *s)
 
 	const Math::Size2f &l_world_size = Graphics::Backend::Size();
 
-	Audio::Player *l_audio_player =
-	    static_cast<DemoEngine *>(Game::Engine::Instance())->audioPlayer();
-	Audio::ITrack *l_track;
-
-	/* background music */
-
-	l_track = new Audio::OggTrack;
-	static_cast<Audio::OggTrack *>(l_track)->
-	    setData(new Core::FileIO("assets/noragames-tropical_island.ogg"),
-	                     true);
-	l_audio_player->load("music", l_track);
-	l_audio_player->play("music", -1);
-	
-	/* sfx */
-
-	l_track = new Audio::WaveTrack;
-	static_cast<Audio::WaveTrack *>(l_track)->
-	    setData(new Core::FileIO("assets/bounce.wav"), true);
-	l_audio_player->load("bounce", l_track);
-
-	l_track = new Audio::WaveTrack;
-	static_cast<Audio::WaveTrack *>(l_track)->
-	    setData(new Core::FileIO("assets/score.wav"), true);
-	l_audio_player->load("score", l_track);
-	
 	addEntity(new PongCourt(this));
 
 	/* position top/bottom walls */
@@ -118,8 +82,7 @@ PongLayer::PongLayer(Game::IScene *s)
 	/* position computer paddle */
 
 	l_paddle = new PongPaddle("computer", this);
-	l_position = static_cast<Game::PositionComponent *>
-	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
+	l_position = l_paddle->position();
 	l_position->setPosition(l_world_size.width / 2, 0);
 	l_position->translateX(-20);
 	l_paddle->addComponent(new AIComponent("ai", l_paddle));
@@ -128,8 +91,7 @@ PongLayer::PongLayer(Game::IScene *s)
 	/* position player paddle */
 
 	l_paddle = new PongPaddle("player", this);
-	l_position = static_cast<Game::PositionComponent *>
-	    (l_paddle->getComponentType(Game::PositionComponent::Type()));
+	l_position = l_paddle->position();
 	l_position->setPosition(l_world_size.width / -2, 0);
 	l_position->translateX(20);
 	l_paddle->addComponent(new InputComponent("input", l_paddle));
@@ -160,51 +122,9 @@ PongLayer::PongLayer(Game::IScene *s)
 
 	addEntity(new PongBall(this));
 #endif
-
-	/*
-	 * Register events
-	 */
-	Event::EventManager::Instance()->connect(this, BallBounceEvent::Type());
-	Event::EventManager::Instance()->connect(this, ScoreEvent::Type());
-
 }
 
 PongLayer::~PongLayer(void)
 {
-	/*
-	 * Disconnect registered events
-	 */
-	Event::EventManager::Instance()->disconnect(this, ScoreEvent::Type());
-	Event::EventManager::Instance()->disconnect(this, BallBounceEvent::Type());
-
-	DemoEngine *l_engine =
-	    static_cast<DemoEngine *>(Game::Engine::Instance());
-	Audio::Player *l_audio_player = l_engine->audioPlayer();
-
-	Audio::ITrack *l_track;
-
-	l_track = l_audio_player->eject("music");
-	delete l_track, l_track = 0;
-
-	l_track = l_audio_player->eject("bounce");
-	delete l_track, l_track = 0;
-
-	l_track = l_audio_player->eject("score");
-	delete l_track, l_track = 0;
-}
-
-bool
-PongLayer::handleEvent(const Event::IEvent &event)
-{
-	Audio::Player *l_audio_player =
-	    static_cast<DemoEngine *>(Game::Engine::Instance())->
-	        audioPlayer();
-
-	if (event.type() == BallBounceEvent::Type())
-		l_audio_player->play("bounce");
-	else if (event.type() == ScoreEvent::Type())
-		l_audio_player->play("score");
-
-	return(false);
 }
 

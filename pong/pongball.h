@@ -53,8 +53,8 @@ MARSHMALLOW_NAMESPACE_USE
 
 class PongBall : public Game::Entity
 {
-	Game::MovementComponent *m_movement_component;
 	Game::PositionComponent *m_position_component;
+	Game::MovementComponent *m_movement_component;
 public:
 	PongBall(Game::EntitySceneLayer *layer);
 
