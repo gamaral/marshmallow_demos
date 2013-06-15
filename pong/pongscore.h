@@ -63,7 +63,7 @@ class PongScore : public Game::Entity
 	Game::TextComponent     *m_text_component;
 	int m_score;
 public:
-	PongScore(const Core::Identifier& id, Game::EntitySceneLayer *layer);
+	PongScore(const Core::Identifier &id, Game::EntitySceneLayer *layer);
 
 	virtual ~PongScore(void);
 

@@ -48,7 +48,7 @@ MARSHMALLOW_NAMESPACE_USE
 class PongWall : public Game::Entity
 {
 public:
-	PongWall(Game::EntitySceneLayer *layer);
+	PongWall(const Core::Identifier &id, Game::EntitySceneLayer *layer);
 
 	virtual ~PongWall(void);
 };

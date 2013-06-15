@@ -49,6 +49,7 @@
 
 #include <event/keyboardevent.h>
 #include <event/quitevent.h>
+#include <event/viewportevent.h>
 
 #include <graphics/backend.h>
 #include <graphics/display.h>
@@ -98,6 +99,7 @@ PongScene::PongScene(void)
 	Event::EventManager::Instance()->connect(this, BallBounceEvent::Type());
 	Event::EventManager::Instance()->connect(this, ScoreEvent::Type());
 	Event::EventManager::Instance()->connect(this, KeyboardEvent::Type());
+	Event::EventManager::Instance()->connect(this, ViewportEvent::Type());
 
 	/*
 	 * Populate
@@ -113,6 +115,7 @@ PongScene::~PongScene(void)
 	/*
 	 * Disconnect registered events
 	 */
+	Event::EventManager::Instance()->disconnect(this, ViewportEvent::Type());
 	Event::EventManager::Instance()->disconnect(this, KeyboardEvent::Type());
 	Event::EventManager::Instance()->disconnect(this, ScoreEvent::Type());
 	Event::EventManager::Instance()->disconnect(this, BallBounceEvent::Type());
@@ -154,6 +157,19 @@ PongScene::handleEvent(const Event::IEvent &event)
 		l_audio_player->play("bounce");
 	else if (event.type() == ScoreEvent::Type())
 		l_audio_player->play("score");
+	
+	/*
+	 * Handle viewport creation
+	 */
+	else if (event.type() == ViewportEvent::Type()) {
+		const ViewportEvent &l_event =
+		    static_cast<const ViewportEvent &>(event);
+
+		if (l_event.reason() == ViewportEvent::Destroyed)
+			return(false);
+	
+		m_pong_layer->resetCourt();
+	}
 	else if (event.type() == KeyboardEvent::Type()) {
 		const KeyboardEvent &l_event =
 		    static_cast<const KeyboardEvent &>(event);

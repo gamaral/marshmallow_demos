@@ -48,8 +48,8 @@
 #include <game/rendercomponent.h>
 #include <game/sizecomponent.h>
 
-PongWall::PongWall(Game::EntitySceneLayer *l)
-    : Game::Entity("wall", l)
+PongWall::PongWall(const Core::Identifier &id, Game::EntitySceneLayer *l)
+    : Game::Entity(id, l)
 {
 	/* position */
 	addComponent(new Game::PositionComponent("position", this));

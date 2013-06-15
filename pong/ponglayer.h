@@ -51,6 +51,8 @@ public:
 	PongLayer(Game::IScene *scene);
 
 	virtual ~PongLayer(void);
+	
+	void resetCourt(void);
 };
 
 #endif
