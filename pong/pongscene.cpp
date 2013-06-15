@@ -30,7 +30,7 @@
  * policies, either expressed or implied, of the project as a whole.
  */
 
-#include "demoscene.h"
+#include "pongscene.h"
 
 /*!
  * @file
@@ -47,6 +47,12 @@
 #include <audio/player.h>
 #include <audio/wavetrack.h>
 
+#include <event/keyboardevent.h>
+#include <event/quitevent.h>
+
+#include <graphics/backend.h>
+#include <graphics/display.h>
+
 #include <game/collisionscenelayer.h>
 
 #include "ballbounceevent.h"
@@ -54,11 +60,13 @@
 #include "ponglayer.h"
 #include "scoreevent.h"
 
-DemoScene::DemoScene(void)
-    : Game::Scene("game")
+PongScene::PongScene(void)
+    : Game::Scene("pong")
     , m_collision_layer(new Game::CollisionSceneLayer("collision", this))
     , m_pong_layer(new PongLayer(this))
 {
+	using namespace Event;
+
 	Audio::Player *l_audio_player =
 	    static_cast<DemoEngine *>(Game::Engine::Instance())->audioPlayer();
 	Audio::ITrack *l_track;
@@ -89,6 +97,7 @@ DemoScene::DemoScene(void)
 	 */
 	Event::EventManager::Instance()->connect(this, BallBounceEvent::Type());
 	Event::EventManager::Instance()->connect(this, ScoreEvent::Type());
+	Event::EventManager::Instance()->connect(this, KeyboardEvent::Type());
 
 	/*
 	 * Populate
@@ -97,11 +106,14 @@ DemoScene::DemoScene(void)
 	pushLayer(m_pong_layer);
 }
 
-DemoScene::~DemoScene(void)
+PongScene::~PongScene(void)
 {
+	using namespace Event;
+
 	/*
 	 * Disconnect registered events
 	 */
+	Event::EventManager::Instance()->disconnect(this, KeyboardEvent::Type());
 	Event::EventManager::Instance()->disconnect(this, ScoreEvent::Type());
 	Event::EventManager::Instance()->disconnect(this, BallBounceEvent::Type());
 
@@ -130,8 +142,10 @@ DemoScene::~DemoScene(void)
 }
 
 bool
-DemoScene::handleEvent(const Event::IEvent &event)
+PongScene::handleEvent(const Event::IEvent &event)
 {
+	using namespace Event;
+
 	Audio::Player *l_audio_player =
 	    static_cast<DemoEngine *>(Game::Engine::Instance())->
 	        audioPlayer();
@@ -140,6 +154,29 @@ DemoScene::handleEvent(const Event::IEvent &event)
 		l_audio_player->play("bounce");
 	else if (event.type() == ScoreEvent::Type())
 		l_audio_player->play("score");
+	else if (event.type() == KeyboardEvent::Type()) {
+		const KeyboardEvent &l_event =
+		    static_cast<const KeyboardEvent &>(event);
+
+		if (l_event.action() == Input::Keyboard::KeyReleased)
+			return(false);
+
+		/*
+		 * Quit game
+		 */
+		if (l_event.key() == Input::Keyboard::KBK_ESCAPE)
+			EventManager::Instance()->queue(new Event::QuitEvent);
+
+		/*
+		 * Toggle fullscreen mode
+		 */
+		else if (l_event.key() == Input::Keyboard::KBK_F11) {
+			Graphics::Display dpy = Graphics::Backend::Display();
+			dpy.fullscreen = !dpy.fullscreen;
+			Graphics::Backend::Setup(dpy);
+			return(true);
+		}
+	}
 
 	return(false);
 }

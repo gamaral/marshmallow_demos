@@ -38,8 +38,8 @@
  * @author Guillermo A. Amaral B. (gamaral) <g@maral.me>
  */
 
-#ifndef MARSHMALLOW_DEMOS_DEMOSCENE_H
-#define MARSHMALLOW_DEMOS_DEMOSCENE_H 1
+#ifndef MARSHMALLOW_DEMOS_PONGSCENE_H
+#define MARSHMALLOW_DEMOS_PONGSCENE_H 1
 
 #include <game/scene.h>
 #include <event/ieventlistener.h>
@@ -52,14 +52,14 @@ MARSHMALLOW_NAMESPACE_USE
 
 class PongLayer;
 
-class DemoScene : public Game::Scene
+class PongScene : public Game::Scene
                 , public Event::IEventListener
 {
 	Game::CollisionSceneLayer *m_collision_layer;
 	PongLayer *m_pong_layer;
 public:
-	DemoScene(void);
-	virtual ~DemoScene(void);
+	PongScene(void);
+	virtual ~PongScene(void);
 
 public: /* reimp */
 

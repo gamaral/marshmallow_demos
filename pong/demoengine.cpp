@@ -45,7 +45,7 @@
 #include <game/inputenginefeature.h>
 #include <game/scenemanager.h>
 
-#include "demoscene.h"
+#include "pongscene.h"
 
 DemoEngine::DemoEngine(void)
     : Game::Engine()
@@ -81,7 +81,7 @@ DemoEngine::initialize(void)
 	m_audio_player = new Audio::Player;
 	m_audio_player->setPCM(m_audio_pcm);
 
-	m_main_scene = new DemoScene;
+	m_main_scene = new PongScene;
 	sceneManager()->pushScene(m_main_scene);
 
 	return(true);

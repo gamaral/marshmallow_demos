@@ -50,13 +50,13 @@ MARSHMALLOW_NAMESPACE_END
 
 MARSHMALLOW_NAMESPACE_USE
 
-class DemoScene;
+class PongScene;
 
 class DemoEngine : public Game::Engine
 {
 	Audio::PCM *m_audio_pcm;
 	Audio::Player *m_audio_player;
-	DemoScene  *m_main_scene;
+	PongScene  *m_main_scene;
 
 	NO_ASSIGN_COPY(DemoEngine);
 public:
