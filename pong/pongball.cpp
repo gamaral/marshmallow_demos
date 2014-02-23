@@ -119,8 +119,8 @@ PongBall::reset(void)
 	    m_movement_component->velocityX() < 0;
 	const bool l_down =
 	    m_movement_component->velocityY() < 0;
-	m_movement_component->setVelocity((250 + random() % 40) * (l_left ? -1 : 1),
-	                                  (250 + random() % 60) * (l_down ? -1 : 1));
+	m_movement_component->setVelocity((60 * (4 + random() % 2)) * (l_left ? -1 : 1),
+	                                  (60 * (4 + random() % 2)) * (l_down ? -1 : 1));
 }
 
 void
